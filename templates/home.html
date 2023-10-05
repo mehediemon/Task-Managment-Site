@@ -7,9 +7,11 @@
 
 {% block content %} 
 
-<div class="row">
-    <div class="col-12">
-    <h2>All Tasks</h2>    
+<div class="row" style="padding-bottom: 30px;">
+    <div class="text-center">
+       <h2 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">All Tasks</h2>
+    </div> 
+    <div class="col-12">   
     <table class="table table-hover">
         <thead>
           <tr>
@@ -41,9 +43,9 @@
             <td>
             {% if task.status == "0" %}
           
-              <a href="{% url 'edit_task'  task_id=task.id %}" type="button">edit</a>
+              <a href="{% url 'edit_task'  task_id=task.id %}" type="button" class="btn btn-dark" style="color: #ff6404;">edit</a>
             {% elif task.status == "1" %}
-              <a type="text">edit</a>
+              <a type="text">no edit</a>
             {% endif %}
             </td>
           </tr>
