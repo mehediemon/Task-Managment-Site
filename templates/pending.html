@@ -27,12 +27,12 @@
           <tr>
             <td>{{ task.date }}</td>
             <td>{{ task.name }}</td>
-            <td>{{ task.client}}</td>
+            <td>{{ task.client.name}}</td>
             <td>{{ task.status}}</td>
             <td>{{ task.type}}</td>
             <td>{{ task.time}}</td>
             <td>
-                <a href="" type="button">edit</a>
+                <a href="{% url 'edit_task'  task_id=task.id %}" type="button">edit</a>
             </td>
           </tr>
          
@@ -42,5 +42,6 @@
     </div>
 
 </div>
+
 
 {% endblock%}

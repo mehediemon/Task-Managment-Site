@@ -19,6 +19,7 @@
             <th>Status</th>
             <th>Type</th>
             <th>Time</th>
+            <th>action</th>
           </tr>
         </thead>
         <tbody>
@@ -26,10 +27,25 @@
           <tr>
             <td>{{ task.date }}</td>
             <td>{{ task.name }}</td>
-            <td>{{ task.client}}</td>
-            <td>{{ task.status}}</td>
+            <td>{{ task.client.name}}</td>
+            <td>
+              {% if task.status == "0" %}
+            
+                <a type="text">pending</a>
+              {% elif task.status == "1" %}
+                <a type="text">completed</a>
+              {% endif %}
+            </td>
             <td>{{ task.type}}</td>
             <td>{{ task.time}}</td>
+            <td>
+            {% if task.status == "0" %}
+          
+              <a href="{% url 'edit_task'  task_id=task.id %}" type="button">edit</a>
+            {% elif task.status == "1" %}
+              <a type="text">edit</a>
+            {% endif %}
+            </td>
           </tr>
          
         {% endfor %} 
