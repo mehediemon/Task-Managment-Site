@@ -51,7 +51,4 @@ def edit_task(request, task_id):
         task.save()
         return redirect('home')
  
-
-
-    
     return render(request, "edit_task.html", { "task" : task})

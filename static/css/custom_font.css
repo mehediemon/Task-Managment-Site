@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'ror';
+    src: url('/static/fonts/ror.ttf') format('truetype');
+}
+
+body {
+    font-family: 'ror', sans-serif; /* Use the custom font for the body */
+}

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="position: sticky; left: 0; top: 0; width: 100%;">
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         <img src="{% static 'img/img.png' %}" width="115" height="30" alt="">
@@ -29,18 +29,24 @@
             <a class="nav-link active" aria-current="page" href="{% url 'add_task' %}">Add Task</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'completed_task' %}">Completed Task</a>
+            <a class="nav-link active" href="{% url 'completed_task' %}">Completed Task</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'pending_task' %}">Pending Task</a>
+            <a class="nav-link active" href="{% url 'pending_task' %}">Pending Task</a>
           </li>
         </ul>
 
       </div>
     </div>
   </nav>
-  <div class="container" style="margin-top: 24px;">
+  
+  
+  <div class="container">
+    {% block titlecontent %} {% endblock %}
+  </div>
+
+  <div class="container">
     {% block content %} {% endblock %}
   </div>
 

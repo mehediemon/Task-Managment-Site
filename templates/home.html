@@ -5,12 +5,17 @@
 {% block title %} <title> Home </title> {% endblock %}
 
 
+{% block titlecontent %} 
+
+<div class="row bg-dark shadow-sm" style="margin-top: 10px; padding: 7px; color: #ff6404;">
+  <h2 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; padding-top: 10px;">All Tasks</h2>
+</div> 
+{% endblock %}
+
 {% block content %} 
 
-<div class="row" style="padding-bottom: 30px;">
-    <div class="text-center">
-       <h2 style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">All Tasks</h2>
-    </div> 
+
+<div class="row shadow-lg" style="padding-bottom: 30px; margin-bottom: 40px; padding-top: 20px; margin-top: 20px;">
     <div class="col-12">   
     <table class="table table-hover">
         <thead>
@@ -56,5 +61,6 @@
     </div>
 
 </div>
+
 
 {% endblock%}
