@@ -8,35 +8,44 @@
   {% block title %} {% endblock %}
   {% block css %} {% endblock %}
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'icofont/icofont.min.css' %}">
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+  <nav class="navbar bg-dark navbar-dark sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="{% static 'img/img.png' %}" width="115" height="30" alt="">
+        <img src="{% static 'img/img.png' %}" width="115" height="25" alt="">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler" style="color: orangered;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="icofont-navigation-menu"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'add_task' %}">Add Task</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'completed_task' %}">Completed Task</a>
-          </li>
+      <div class="offcanvas offcanvas-end bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <img src="{% static 'img/img.png' %}" width="115" height="20" alt="">
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
 
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'pending_task' %}">Pending Task</a>
-          </li>
-        </ul>
+        <div class="offcanvas-body bg-dark">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'add_task' %}">Add Task</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" style="font-family: Arial, Helvetica, sans-serif;" href="{% url 'completed_task' %}">Completed Task</a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'pending_task' %}">Pending Task</a>
+            </li>
+  
+          </ul>
 
+        </div>
       </div>
     </div>
   </nav>
