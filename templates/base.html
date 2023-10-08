@@ -8,69 +8,113 @@
   {% block title %} {% endblock %}
   {% block css %} {% endblock %}
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'icofont/icofont.min.css' %}">
+  <link href='https://fonts.googleapis.com/css?family=Encode Sans Condensed|Racing Sans One|Audiowide|Sofia|Trirong|Yanone Kaffeesatz' rel='stylesheet'>
+  <style>
+  body {
+      font-family: 'Yanone Kaffeesatz';font-size: 17px;
+  }
+  </style>
 </head>
 
 <body>
-  <nav class="navbar bg-dark navbar-dark sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="{% static 'img/img.png' %}" width="115" height="25" alt="">
-      </a>
-      <button class="navbar-toggler" style="color: orangered;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-        <span class="icofont-navigation-menu"></span>
-      </button>
-      <div class="offcanvas offcanvas-end bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <img src="{% static 'img/img.png' %}" width="115" height="20" alt="">
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-
-        <div class="offcanvas-body bg-dark">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'add_task' %}">Add Task</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" style="font-family: Arial, Helvetica, sans-serif;" href="{% url 'completed_task' %}">Completed Task</a>
-            </li>
-  
-            <li class="nav-item">
-              <a class="nav-link active" href="{% url 'pending_task' %}">Pending Task</a>
-            </li>
-  
-          </ul>
-
-        </div>
-      </div>
-    </div>
+  <nav class="navbar justify-content-center bg-dark sticky-top">
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+          <a>
+            <img src="{% static 'img/img.png' %}" width="195" height="40" alt="">
+          </a>
+      </li>
+    </ul>
   </nav>
   
+  <div class="container">
+    <div class="row">
+            <div class="col-sm-auto bg-dark" style="width: 70px; bottom: 0; left: 0; top: 0; position: fixed;">
+                <div class="sidebar flex-sm-column flex-row align-items-center sticky-top">
+                    <ul class="nav nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center" style="padding-top: 80px; font-size: 30px;">
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}" class="nav-link " title="HOME" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+                                <i class="bi bi-house-door-fill" style="color: orangered;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'add_task' %}" class="nav-link" title="ADD TASK" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
+                                <i class="bi bi-plus-square-fill" style="color: orangered;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'completed_task' %}" class="nav-link" title="COMPLETED TASK" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+                                <i class="bi bi-check2-square" style="color: orangered;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'pending_task' %}" class="nav-link" title="PENDING TASK" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Products">
+                                <i class="bi bi-hourglass-bottom" style="color: orangered;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                                <i class="bi-people" style="color: orangered;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <!-- content -->
+                <div class="container-fluid">
+                  {% block titlecontent %} {% endblock %}
+                </div>
+              
+                <div class="container-fluid">
+                  {% block content %} {% endblock %}
+                </div>
+              </div>
+        </div>
+  </div>
   
-  <div class="container">
-    {% block titlecontent %} {% endblock %}
+  <div class="offcanvas bg-dark offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas-header">
+      <img src="{% static 'img/img.png' %}" width="125" height="30" alt="" style="margin-top: 2px;">
+      <a  type="button" style="color: orangered; padding-bottom: 2px;" class="bi bi-x-square" data-bs-dismiss="offcanvas"></a>
+    </div>
+    
+    <div class="offcanvas-body bg-dark">
+      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}" style="color: orangered;"><i class="bi bi-house-door-fill"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'add_task' %}" style="color: orangered;"><i class="bi bi-plus-square"></i> Add Task</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'completed_task' %}" style="color: orangered;"><i class="bi bi-check-square"></i> Completed Task</a>
+        </li>
+  
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'pending_task' %}" style="color: orangered;" ><i class="bi bi-hourglass-bottom"></i> Pending Task</a>
+        </li>
+      </ul>
+    </div>
   </div>
-
-  <div class="container">
-    {% block content %} {% endblock %}
-  </div>
+  
 
 
-    <footer class="bg-dark text-center text-white" style="bottom: 0; left: 0; position: fixed; width: 100%; margin-top: 20px;">
 
-      <div class="text-center" style="background-color: rgba(0, 0, 0, 0.2);">
+    <footer class="text-center" style="bottom: 0; left: 0; width: 100%; position: fixed; margin-top: 20px;">
+
+      <div class="text-center">
         <a class="img" href="#">
           <img src="{% static 'img/img.png' %}" width="100px" height="20px" alt="">
         </a>
       </div>
       <!-- Copyright -->
     </footer>
-
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 </body>
 </html>

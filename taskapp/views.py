@@ -52,3 +52,7 @@ def edit_task(request, task_id):
         return redirect('home')
  
     return render(request, "edit_task.html", { "task" : task})
+
+
+def main(request):
+    return render(request, "main.html")
