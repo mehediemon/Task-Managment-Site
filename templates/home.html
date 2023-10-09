@@ -7,7 +7,7 @@
 
 {% block titlecontent %} 
 
-<div class="row bg-dark shadow-sm sticky-top" style="margin-top: 10px; padding: 7px; color: #ff6404;">
+<div class="row shadow-sm sticky-top card" style="margin-top: 0px; background-color: #00838f; padding: 7px; color: #fff;">
   <h3 style="font-family: Racing Sans One;">All Tasks</h3>
 </div> 
 {% endblock %}
@@ -16,7 +16,7 @@
 
 
 <div class="row shadow-lg" style="padding-bottom: 30px; margin-bottom: 40px; padding-top: 5px; margin-top: 20px;">
-    <div class="col-12">   
+  <div class="col-12">   
     <table class="table table-hover">
         <thead>
           <tr>
@@ -48,7 +48,7 @@
             <td>
             {% if task.status == "0" %}
           
-              <a href="{% url 'edit_task'  task_id=task.id %}" type="button" class="btn btn-dark" style="color: #ff6404;">edit</a>
+              <a href="{% url 'edit_task'  task_id=task.id %}" type="button" class="btn btn-light" style="color: #00838f;">edit</a>
             {% elif task.status == "1" %}
               <a type="text">no edit</a>
             {% endif %}
