@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from taskapp.models import Task, Client
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
@@ -56,3 +57,6 @@ def edit_task(request, task_id):
 
 def main(request):
     return render(request, "main.html")
+
+def signup(request):
+    return render(request, "signup.html")
