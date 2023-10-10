@@ -24,6 +24,7 @@
             <th>Status</th>
             <th>Type</th>
             <th>Time</th>
+            <th>User</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -36,8 +37,9 @@
             <td>{{ task.status}}</td>
             <td>{{ task.type}}</td>
             <td>{{ task.time}}</td>
+            <td>{{ task.user }}</td>
             <td>
-                <a href="{% url 'edit_task'  task_id=task.id %}" type="button">edit</a>
+              <a href="{% url 'edit_task'  task_id=task.id %}" type="button" class="btn btn-light" style="color: #00838f;">edit</a>
             </td>
           </tr>
          

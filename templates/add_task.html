@@ -22,7 +22,7 @@
                     <label for="client" class="form-label" style="color: #00838f;">Client Name</label>
                     <select name="client" id="client" class="form-select">
                         {% for client in clients %}
-                        <option value="{{client.id}}">{{ client.name }}</option>
+                         <option value="{{client.id}}">{{ client.name }}</option>
                         {% endfor %}
 
                     </select>
@@ -51,9 +51,9 @@
                 <div class="col-lg-4">
                     <label for="type" class="form-label" style="color: #00838f;">Type</label>
                     <select name="type" id="type" class="form-select">
-                        <option value="01">deploy</option>
-                        <option value="02">troubleshoot</option>
-
+                        {% for types in type %}
+                           <option value="{{types.id}}">{{ types.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-4">
@@ -64,8 +64,8 @@
                 <div class="col-lg-4">
                     <label for="user" class="form-label" style="color: #00838f;">User Name</label>
                     <select name="user" id="user" class="form-select">
-                        {% for user in users %}
-                        <option value="{{user.id}}">{{ user.name }}</option>
+                        {% for usr in userl %}
+                          <option value="{{ usr.id }}">{{usr.username}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -74,7 +74,7 @@
             <div class="row mt-3">
                 <div class="col-8"></div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-lg w-100 shadow-sm"
+                    <button type="submit" class="btn btn-lg btn-floating w-100 shadow-sm"
                         style="background-color: #00838f; border: none; color: #fff; font-family: DM Sans;">
                         <i class="bi bi bi-plus-square" style="color: #fff;"></i>  Add</button>
 
