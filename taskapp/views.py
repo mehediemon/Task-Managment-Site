@@ -1,22 +1,25 @@
 from django.shortcuts import render, redirect
 from taskapp.models import Task, Client, Type
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def home(request):
     all_tasks = Task.objects.all()
 
     return render(request, "home.html", {
         "all_tasks" : all_tasks 
     })
-
+@login_required
 def completed_task(request):
     completed_tasks = Task.objects.filter(status="1")
 
     return render(request, "completed_task.html", {
         "completed_tasks" : completed_tasks 
     })
-
+@login_required
 def pending_task(request):
     pending_tasks = Task.objects.filter(status="0")
 
@@ -24,14 +27,11 @@ def pending_task(request):
         "pending_tasks" : pending_tasks 
     })
 
-
+@login_required
 def add_task(request):
     clients = Client.objects.all()
     typeall = Type.objects.all()
-    userall = User.objects.all()
-    print(userall)
-    print(typeall)
-    print(clients)
+    userall = User.objects.get(id=request.user.id)
     if request.method == 'POST':
         task = request.POST['task']
         client = request.POST['client']
@@ -42,7 +42,6 @@ def add_task(request):
         status = request.POST['status']
         time = request.POST['time']
         user = request.POST['user']
-        print(user)
         user = User.objects.get(id=user)
         Task.objects.create(name=task, client=client, date=date, type=type, status=status, time=time, user=user)
         return redirect('home')
@@ -50,6 +49,8 @@ def add_task(request):
 
     return render(request, "add_task.html", { "clients" : clients, "type": typeall, "userl": userall })
 
+
+@login_required
 def edit_task(request, task_id):
     print(task_id)
     task = Task.objects.get(id=task_id)
@@ -64,23 +65,46 @@ def edit_task(request, task_id):
  
     return render(request, "edit_task.html", { "task" : task})
 
-
+@login_required
 def main(request):
     return render(request, "main.html")
 
-def signup(request):
 
+def signup(request):
     if request.method == 'POST':
      fname = request.POST['fname']
      lname = request.POST['lname']
      username = request.POST['username']
      email = request.POST['email']
      password = request.POST['pass1']
+     password2 = request.POST['pass2']
+     if password == password2:
+        myuser = User.objects.create_user(username=username, email=email, password=password)   
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.save()
+    else:
+        print("password not matched")
 
-     myuser = User.objects.create_user(username=username, email=email, password=password)   
-     myuser.first_name = fname
-     myuser.last_name = lname
-     myuser.save()
+     
 
 
     return render(request, "signup.html")
+
+def signin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['pass1']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("home")
+        else:
+            print("no user matched")
+
+    return render(request, "signin.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect("signin")

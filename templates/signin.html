@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SignIn</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
@@ -54,13 +54,13 @@
                         </div>
                         <p class="text-muted text-center small">At least 8 characters and 1 digit</p>
                         <button type="submit" class="btn btn-block btn-success btn-lg btn-floating my-3 btn-outline-white" style="background-color: #00838f;">
-                            Sign up
+                            Sign In
                         </button>
 
                     </div>
                     <p class="text-center m-0">
                         Create new account? <a class="text-decoration-none" style="color: #00838f;"
-                            href="#">Sign Up</a>
+                            href="{% url 'signup' %}">Sign Up</a>
                     </p>
 
                 </div>
