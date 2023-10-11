@@ -3,6 +3,9 @@ from taskapp.models import Task, Client, Type
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 @login_required(login_url="/accounts/login/")
@@ -109,6 +112,9 @@ def signin(request):
             print("no user matched")
 
     return render(request, "signin.html")
+
+
+
 
 def logout_view(request):
     logout(request)

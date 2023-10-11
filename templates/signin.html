@@ -25,19 +25,23 @@
 
 <body>
 
-    <div class="container justify-content-center p-5" style="box-sizing: border-box;">
+    <div class="container-fluid ">
 
-        <form class="cs-form  card shadow-lg m-5" method="post">
+    <div class="row justify-content-center" style="box-sizing: border-box;">
+
+
+        <div class="col-sm-6 " style="margin-top: 100px;">
+        <form class="cs-form  card shadow-lg m-4" method="post">
             {% csrf_token %}
 
             <div class="text-center text-white" style="background: #00838f; padding-top: 13px;">
                 <p style="font-family: Racing Sans One; font-size: 25px;">SIGN IN</p>
             </div>
-            <div class="mx-4 mt-4 p-3">
+            <div class="mt-4 p-3">
                 <div class="row mb-n4">
                     <div class="col" style="text-align: center;">
                         <div class="text-center text-white " style="padding-top: 50px;">
-                            <img src="{% static 'img/logof.png' %}" width="300" height="90" alt="">
+                            <img src="{% static 'img/logof.png' %}" width="250" height="70" alt="">
                         </div>
                     </div>
                     <div class="col" style="text-align: right;">
@@ -52,7 +56,6 @@
                             <input type="password" id="pass1" name="pass1" class="form-control" required/>
 
                         </div>
-                        <p class="text-muted text-center small">At least 8 characters and 1 digit</p>
                         <button type="submit" class="btn btn-block btn-success btn-lg btn-floating my-3 btn-outline-white" style="background-color: #00838f;">
                             Sign In
                         </button>
@@ -66,6 +69,9 @@
                 </div>
         </form>
     </div>
+
+    </div>
+</div>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>

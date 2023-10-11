@@ -1,5 +1,7 @@
 from django.urls import path, include
 from taskapp.views import completed_task, home, pending_task, add_task, edit_task, main, signup, signin, logout_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', signin, name="signin"),
@@ -13,3 +15,7 @@ urlpatterns = [
     path('edit-task/<int:task_id>/', edit_task, name='edit_task')
 
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
