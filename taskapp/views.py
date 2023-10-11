@@ -5,23 +5,28 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required
+@login_required(login_url="/accounts/login/")
 def home(request):
+    userall = User.objects.get(id=request.user.id)
+    taskf = Task.objects.filter(user=userall)
     all_tasks = Task.objects.all()
 
     return render(request, "home.html", {
-        "all_tasks" : all_tasks 
+        "all_tasks" : all_tasks, "taskfl": taskf 
     })
-@login_required
+@login_required(login_url="/accounts/login/")
 def completed_task(request):
-    completed_tasks = Task.objects.filter(status="1")
+    userall = User.objects.get(id=request.user.id)
+    print(userall)
+    completed_tasks = Task.objects.filter(user=userall, status="1")
 
     return render(request, "completed_task.html", {
         "completed_tasks" : completed_tasks 
     })
 @login_required
 def pending_task(request):
-    pending_tasks = Task.objects.filter(status="0")
+    userall = User.objects.get(id=request.user.id)
+    pending_tasks = Task.objects.filter(user=userall, status="0")
 
     return render(request, "pending.html", {
         "pending_tasks" : pending_tasks 
