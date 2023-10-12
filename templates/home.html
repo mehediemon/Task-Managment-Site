@@ -114,14 +114,16 @@
     </table>
   </div>
   <div class="col-sm-6 shadow-sm m-2 card" style="overflow-x: scroll;">
+    <div class="p-3">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Upload</button>
+        <button class="" type="submit">Upload</button>
       </form>
-      {% for doc in docs %}
-      <a href="{{ doc.document.url }}" target="_blank">{{ doc.document.url }}</a>
-      {% endfor %}
+    </div>
+    {% for doc in docs %}
+    <a href="{{ doc.document.url }}" target="_blank">{{ doc.name }}</a>
+    {% endfor %}
 
     
       <p><a href="{% url 'home' %}">Return to home</a></p>

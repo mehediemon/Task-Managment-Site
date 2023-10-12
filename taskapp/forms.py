@@ -1,8 +1,8 @@
 from django import forms
-from taskapp.models import Document
+from taskapp.models import Client
 
 class DocumentForm(forms.ModelForm):
+   
     class Meta:
-        print("form")
-        model = Document
-        fields = ('description', 'document', )
+        model = Client
+        fields = ('name', 'description', 'document', )

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from taskapp.models import Task, Client, Type, Document
+from taskapp.models import Task, Client, Type
 from taskapp.forms import DocumentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -7,16 +7,17 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+import os
 
 # Create your views here.
 @login_required(login_url="/accounts/login/")
 def home(request):
-    docs = Document.objects.all()
+    docs = Client.objects.all()
     userall = User.objects.get(id=request.user.id)
     taskf = Task.objects.filter(user=userall)
     all_tasks = Task.objects.all()
     if request.method == 'POST':
-        print("view")
+        print(request.FILES)
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
