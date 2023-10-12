@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from taskapp.models import Task, Client, Type
+from taskapp.models import Task, Client, Type, Document
+from taskapp.forms import DocumentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -10,13 +11,26 @@ from django.core.files.storage import FileSystemStorage
 # Create your views here.
 @login_required(login_url="/accounts/login/")
 def home(request):
+    docs = Document.objects.all()
     userall = User.objects.get(id=request.user.id)
     taskf = Task.objects.filter(user=userall)
     all_tasks = Task.objects.all()
+    if request.method == 'POST':
+        print("view")
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = DocumentForm()
 
     return render(request, "home.html", {
-        "all_tasks" : all_tasks, "taskfl": taskf 
+        "all_tasks" : all_tasks, "taskfl": taskf, "form" : form, "docs" : docs
     })
+
+
+
+
 @login_required(login_url="/accounts/login/")
 def completed_task(request):
     userall = User.objects.get(id=request.user.id)

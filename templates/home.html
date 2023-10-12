@@ -115,15 +115,16 @@
   </div>
   <div class="col-sm-6 shadow-sm m-2 card" style="overflow-x: scroll;">
     <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <input type="file" name="myfile">
-      <input type="text" name="client" id="">
-      <button type="submit">Upload</button>
-    </form>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+      </form>
+      {% for doc in docs %}
+      <a href="{{ doc.document.url }}" target="_blank">{{ doc.document.url }}</a>
+      {% endfor %}
+
     
-    {% if uploaded_file_url %}
-    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-    {% endif %}
+      <p><a href="{% url 'home' %}">Return to home</a></p>
 
   </div>
 
