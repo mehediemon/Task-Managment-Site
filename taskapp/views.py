@@ -7,14 +7,17 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from datetime import date
 import os
 
 # Create your views here.
 @login_required(login_url="/accounts/login/")
 def home(request):
+    daten = date.today()
     docs = Client.objects.all()
     userall = User.objects.get(id=request.user.id)
-    taskf = Task.objects.filter(user=userall)
+    taskf = Task.objects.filter(user=userall, date=daten)
+    total_task = Task.objects.filter(user=userall, status="0").count()
     all_tasks = Task.objects.all()
     if request.method == 'POST':
         print(request.FILES)
@@ -26,7 +29,7 @@ def home(request):
         form = DocumentForm()
 
     return render(request, "home.html", {
-        "all_tasks" : all_tasks, "taskfl": taskf, "form" : form, "docs" : docs
+        "all_tasks" : all_tasks, "taskfl": taskf, "form" : form, "docs" : docs, "user" : userall, "count" : total_task
     })
 
 

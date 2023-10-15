@@ -6,26 +6,43 @@
 
 
 {% block titlecontent %}
-<!--
-<div class="row shadow-sm" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
-  <h2 style="font-family: Racing Sans One;">All Tasks</h2>
+
+<div class="row shadow-sm text-center" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
+
+  <h2 style="font-family: Racing Sans One;">Welcome {{ user.username }}</h2>
+
 </div> 
--->
+
 {% endblock %}
 
 {% block content %}
-
+<div class="row justify-content-center">
+  <div class="col  m-2 p-1 text-center" style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
+    <h5 style="color: #fff;">{{ count }}</h5>
+  </div>
+  <div class="col  m-2 p-1 text-center" style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Completed Task:</a>
+    <h5 style="color: #fff;">{{ count }}</h5></div>
+  <div class="col m-2 p-1 text-center" style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
+    <h5 style="color: #fff;">{{ count }}</h5></div>
+  <div class="col m-2 p-1 text-center" style=" background-color: #6200EA; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
+    <h5 style="color: #fff;">{{ count }}</h5></div>
+</div>
 
 <div class="row justify-content-center">
-  <div class="col-sm-5 shadow-sm m-2 card" style="overflow-x: scroll;"></div>
-  <div class="col-sm-6 shadow-sm m-2 card" style="overflow-x: scroll;">
+  <div class="col m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);"></div>
+
+  <div class="col  m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
+    <h3>Pending Task:</h3>
     <table class="table table-hover">
       <thead>
         <tr>
           <th>Date</th>
           <th>Task</th>
           <th>Client</th>
-          <th>Status</th>
           <th>Type</th>
           <th>Time</th>
           <th>action</th>
@@ -35,17 +52,9 @@
       <tbody>
         {% for task in all_tasks %}
         <tr>
-          <td>{{ task.date }}</td>
+          <td>{{ task.date.day}}</td>
           <td>{{ task.name }}</td>
           <td>{{ task.client.name}}</td>
-          <td>
-            {% if task.status == "0" %}
-
-            <a type="text">pending</a>
-            {% elif task.status == "1" %}
-            <a type="text">completed</a>
-            {% endif %}
-          </td>
           <td>{{ task.type}}</td>
           <td>{{ task.time}}</td>
           <td>{{ task.user }}</td>
@@ -67,11 +76,11 @@
 
 </div>
 <div class="row justify-content-center">
-  <div class="col-sm-5 shadow-sm m-2 card" style="overflow-x: scroll;">
+  <div class="col  m-2 " style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
     <table class="table table-hover">
       <thead>
         <tr>
-          <th>Date</th>
+       
           <th>Task</th>
           <th>Client</th>
           <th>Status</th>
@@ -84,7 +93,7 @@
       <tbody>
         {% for tas in taskfl %}
         <tr>
-          <td>{{ tas.date }}</td>
+
           <td>{{ tas.name }}</td>
           <td>{{ tas.client.name}}</td>
           <td>
@@ -113,7 +122,7 @@
       </tbody>
     </table>
   </div>
-  <div class="col-sm-6 shadow-sm m-2 card" style="overflow-x: scroll;">
+  <div class="col  m-2 " style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
     <div class="p-3">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
