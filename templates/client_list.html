@@ -49,22 +49,23 @@
         </form>
     </div>
 
-    <div class="row justify-content-center p-2">
+    <div class="row row-cols-3 row-cols-md-4 g-4 " style="margin-bottom: 30px;">
+        
         {% for clnt in docs %}
-
-        <div class="col text-center">
-        <div class="card m-1 shadow-sm" style="width: 18rem; height: 10rem; background-color: #fff; overflow-x: auto;">
+        <div class="col">
+        
+        <div class="card shadow-sm" style="height: 13rem; overflow-x: auto;">
             <div class="card-body">
               <h5 class="card-title">{{ clnt.name }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">{{ clnt.description }}</h6>
 
             </div>
-          </div>
+        
         </div>
-
+         </div>
         {% endfor %}
-    </div>
-    
+
+</div>
 </div>
 
 {% endblock %}
