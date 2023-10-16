@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from taskapp.models import Task, Client, Type
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -6,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.views.decorators.csrf import csrf_exempt
 from datetime import *
 from django.utils import timezone
 import os
@@ -36,7 +38,7 @@ def completed_task(request):
     return render(request, "completed_task.html", {
         "completed_tasks" : completed_tasks 
     })
-@login_required
+@login_required(login_url="/login/")
 def pending_task(request):
     userall = User.objects.get(id=request.user.id)
     pending_tasks = Task.objects.filter(user=userall, status="0")
@@ -45,7 +47,8 @@ def pending_task(request):
         "pending_tasks" : pending_tasks 
     })
 
-@login_required
+
+@login_required(login_url="/login/")
 def add_task(request):
     clients = Client.objects.all()
     typeall = Type.objects.all()
@@ -68,7 +71,7 @@ def add_task(request):
     return render(request, "add_task.html", { "clients" : clients, "type": typeall, "userl": userall })
 
 
-@login_required
+@login_required(login_url="/login/")
 def edit_task(request, task_id):
     print(task_id)
     task = Task.objects.get(id=task_id)
@@ -83,7 +86,7 @@ def edit_task(request, task_id):
  
     return render(request, "edit_task.html", { "task" : task})
 
-@login_required
+@login_required(login_url="/login/")
 def main(request):
     return render(request, "main.html")
 
@@ -123,6 +126,8 @@ def signin(request):
 
     return render(request, "signin.html")
 
+
+@login_required(login_url="/login/")
 def add_client(request):
     daten = date.today()
     docs = Client.objects.all()
@@ -163,6 +168,71 @@ def add_client(request):
 
     return render(request, "client_list.html", {"docs" : docs} )
 
+@login_required(login_url="/login/")
+def get_task_details(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id)
+        task_data = {
+            'name': task.name,
+            'client': task.client.name,
+            'date': str(task.date),
+            'status': task.status,
+            'type': task.type.id,  # Replace with the appropriate type field
+            'time': task.time,
+        }
+        return JsonResponse(task_data)
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'Task not found'}, status=404)
+    
+@login_required(login_url="/login/")
+def get_client_data(request, client_id):
+    try:
+        clients = Client.objects.get(pk=client_id)
+        # Prepare a dictionary with task information
+        client_data = {
+            'name': clients.name,
+            'description': clients.description,
+            'file_url': clients.file.url,
+            'filename': clients.original_filename,
+        }
+        return JsonResponse(client_data)
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'Task not found'})
+    
+
 def logout_view(request):
     logout(request)
     return redirect("signin")
+
+@login_required(login_url="/login/")
+@csrf_exempt
+def edit_task_modal(request, task_id):
+    if request.method == 'POST':
+        try:
+            task = Task.objects.get(pk=task_id)
+            task.name = request.POST.get('name')
+            task.client = request.POST.get('client')
+            task.type = request.POST.get('type')
+            task.time = request.POST.get('time')
+            task.save()
+            return JsonResponse({'message': 'Task updated successfully'})
+        except Task.DoesNotExist:
+            return JsonResponse({'error': 'Task not found'}, status=404)
+
+@login_required(login_url="/login/")
+def update_task(request, task_id):
+    if request.method == 'POST':
+        try:
+            task = Task.objects.get(id=task_id)
+            task.name = request.POST.get('task_name', task.name)
+            task.client = request.POST.get('client_name', task.client)
+            task.date = request.POST.get('date', task.date)
+            task.status = request.POST.get('status', task.status)
+            task.type = request.POST.get('type', task.type)
+            task.time = request.POST.get('time', task.time)
+            task.save()
+            return JsonResponse({'message': 'Task updated successfully'})
+        except Task.DoesNotExist:
+            return JsonResponse({'error': 'Task not found'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)

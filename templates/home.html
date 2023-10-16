@@ -11,102 +11,37 @@
 
   <h2 style="font-family: Racing Sans One;">Welcome {{ user.username }}</h2>
 
-</div> 
+</div>
 
 {% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col  m-2 p-1 text-center" style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+  <div class="col  m-2 p-1 text-center"
+    style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
     <h5 style="color: #fff;">{{ count }}</h5>
   </div>
-  <div class="col  m-2 p-1 text-center" style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+  <div class="col  m-2 p-1 text-center"
+    style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Completed Task:</a>
-    <h5 style="color: #fff;">{{ count }}</h5></div>
-  <div class="col m-2 p-1 text-center" style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    <h5 style="color: #fff;">{{ count }}</h5>
+  </div>
+  <div class="col m-2 p-1 text-center"
+    style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
-    <h5 style="color: #fff;">{{ count }}</h5></div>
-  <div class="col m-2 p-1 text-center" style=" background-color: #6200EA; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    <h5 style="color: #fff;">{{ count }}</h5>
+  </div>
+  <div class="col m-2 p-1 text-center"
+    style=" background-color: #6200EA; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
-    <h5 style="color: #fff;">{{ count }}</h5></div>
+    <h5 style="color: #fff;">{{ count }}</h5>
+  </div>
 </div>
-
 <div class="row justify-content-center">
-  <div class="col m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form class="g-3" method="get">
-          {% csrf_token %}
-          <div class="row">
-              <div class="col-12">
-                  <label for="task" class="form-label">Task</label>
-                  <input type="text" value="{{task.name}}" class="form-control" id="task" placeholder="Task name"
-                      name="task_name">
-              </div>
-          </div>
-          <div class="row mt-3">
-              <div class="col-lg-4">
-                  <label for="client" class="form-label">Client Name</label>
-                  <input type="text" value="{{task.client.name}}" class="form-control" id="client" placeholder=" name"
-                      name="client">
-              </div>
-              <div class="col-lg-4">
-                  <label for="date" class="form-label">Date</label>
-                  <input type="date" value="{{task.date}}" name="date" class="form-control">
-              </div>
-              <div class="col-lg-4">
-                  <label for="status" class="form-label">Status</label>
-                  <select name="status" id="status" class="form-select">
-                      <option value="0">Pending</option>
-                      <option value="1">Completed</option>
-  
-                  </select>
-              </div>
-          </div>
-          <div class="row mt-3">
-              <div class="col-lg-4">
-                  <label for="type" class="form-label">Type</label>
-                  <select name="type" id="type" class="form-select">
-                      <option value="01">01</option>
-                      <option value="02">02</option>
-  
-                  </select>
-              </div>
-              <div class="col-lg-4">
-                  <label for="time" class="form-label">Time</label>
-                  <input type="number" value="{{task.time}}" class="form-control" id="time" name="time">
-              </div>
-  
-          </div>
-    
-  </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
-  
-
-  </div>
-
-  <div class="col  m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
+  <div class="col  m-2 " style=" overflow-x: auto; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
     <h3>Pending Task:</h3>
     <table class="table table-hover">
       <thead>
@@ -122,7 +57,7 @@
       </thead>
       <tbody>
         {% for task in all_tasks %}
-        <tr>
+        <tr data-task-id="{{ task.id }}" data-task-name="{{ task.name }}" data-task-client="{{ task.client.name }}" data-task-type="{{ task.type }}" data-task-time="{{ task.time }}">
           <td>{{ task.date.day}}</td>
           <td>{{ task.name }}</td>
           <td>{{ task.client.name}}</td>
@@ -132,9 +67,8 @@
           <td>
             {% if task.status == "0" %}
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editTask('{{task.id}}')">
-              Launch demo modal
-            </button>
+            <button type="button" class="btn btn-primary edit-task" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              data-task-id="{{ task.id }}">Open Task</button>
             {% elif task.status == "1" %}
             <a type="text">no edit</a>
             {% endif %}
@@ -148,11 +82,12 @@
 
 </div>
 <div class="row justify-content-center">
-  <div class="col  m-2 " style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
+  <div class="col  m-2 "
+    style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
     <table class="table table-hover">
       <thead>
         <tr>
-       
+
           <th>Task</th>
           <th>Client</th>
           <th>Status</th>
@@ -194,12 +129,72 @@
       </tbody>
     </table>
   </div>
-  <div class="col  m-2 " style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
-   
+  <div class="col  m-2 "
+    style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
+
 
   </div>
 
 </div>
+
+<script>
+
+
+$(document).ready(function() {
+  $('.edit-task').click(function() {
+      var taskId = $(this).data('task-id');
+      $.ajax({
+          url: '/get_task_details/' + taskId + '/',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+              $('#taskName').val(data.name);
+              $('#taskDate').val(data.date);
+              $('#taskStatus').val(data.status);
+              $('#taskTime').val(data.time);
+
+          },
+          error: function() {
+              // Handle error
+          }
+      });
+  });
+
+  $('#saveChanges').click(function() {
+      var taskId = $('.edit-task').data('task-id');
+      var taskName = $('#taskName').val();
+      var taskDate = $('#taskDate').val();
+      var taskStatus = $('#taskStatus').val();
+      var taskTime = $('#taskTime').val();
+      $.ajax({
+          url: '/update_task/' + taskId + '/',
+          type: 'POST',
+          cache: false,
+          data: {
+              task_name: taskName,
+              date: taskDate,
+              status: taskStatus,
+              time: taskTime,
+              csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+          },
+          success: function(data) {
+              $('#exampleModal').modal('hide');
+              $('.modal-backdrop').remove();
+
+              location.reload();
+
+              // Update the table or display a success message
+          },
+          error: function() {
+              // Handle error
+          }
+      });
+  });
+});
+
+</script>
+  
+  
 
 
 {% endblock%}
