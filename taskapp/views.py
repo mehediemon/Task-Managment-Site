@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect
 from taskapp.models import Task, Client, Type
-from taskapp.forms import DocumentForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from datetime import date
+from datetime import *
+from django.utils import timezone
 import os
 
 # Create your views here.
-@login_required(login_url="/accounts/login/")
+@login_required(login_url="/login/")
 def home(request):
     daten = date.today()
     docs = Client.objects.all()
@@ -19,23 +19,15 @@ def home(request):
     taskf = Task.objects.filter(user=userall, date=daten)
     total_task = Task.objects.filter(user=userall, status="0").count()
     all_tasks = Task.objects.all()
-    if request.method == 'POST':
-        print(request.FILES)
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = DocumentForm()
 
     return render(request, "home.html", {
-        "all_tasks" : all_tasks, "taskfl": taskf, "form" : form, "docs" : docs, "user" : userall, "count" : total_task
+        "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : userall, "count" : total_task
     })
 
 
 
 
-@login_required(login_url="/accounts/login/")
+@login_required(login_url="/login/")
 def completed_task(request):
     userall = User.objects.get(id=request.user.id)
     print(userall)
@@ -131,8 +123,45 @@ def signin(request):
 
     return render(request, "signin.html")
 
+def add_client(request):
+    daten = date.today()
+    docs = Client.objects.all()
+    userall = User.objects.get(id=request.user.id)
+    taskf = Task.objects.filter(user=userall, date=daten)
+    total_task = Task.objects.filter(user=userall, status="0").count()
+    all_tasks = Task.objects.all()
+    client_list = Client.objects.all()
+
+    if request.method == 'POST' and request.FILES.get('file'):
+
+        
+        name = request.POST['name']
+        description = request.POST['description']
+        try:
+            client = Client.objects.get(name=name)
+            error_message = "A client with the same name already exists. Please choose a different name."
+            return render(request, "client_list.html", {
+                "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : userall, "count" : total_task, "error_client" : error_message
+                })
+        except Client.DoesNotExist:
+            uploaded_file = request.FILES['file']
+            original_filename = uploaded_file.name
+
+            new_file = Client(name=name, file=uploaded_file, original_filename=original_filename, description=description)
+
+            # Generate a unique filename based on the current timestamp
+            timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+            file_extension = os.path.splitext(original_filename)[-1]
+            new_filename = f"{timestamp}{file_extension}"
+
+            # Rename the file and save it
+            new_file.file.name = os.path.join('client_Files', new_filename)
+            new_file.save()
+
+            return redirect('add_client')
 
 
+    return render(request, "client_list.html", {"docs" : docs} )
 
 def logout_view(request):
     logout(request)

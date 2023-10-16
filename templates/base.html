@@ -54,13 +54,13 @@
             <li class="nav-item mb-3">
               <a href="{% url 'add_task' %}" class="nav-link" title="ADD TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Dashboard">
-                <i class="bi bi-plus-square-fill fs-5" style="color: #fff;"></i>
+                <i class="bi bi-calendar2-plus-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'completed_task' %}" class="nav-link" title="COMPLETED TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Orders">
-                <i class="bi bi-check2-square fs-5" style="color: #fff;"></i>
+                <i class="bi  bi-calendar-check-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
@@ -140,11 +140,13 @@
       <a class="img" href="#">
         <img src="{% static 'img/logof.png' %}" width="100px" height="25px" alt="">
       </a>
+      <button type="button" class="btn btn-light" onclick="myfunction()" id="btn1">BUTTON</button>
     </div>
     <!-- Copyright -->
   </footer>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/test.js'%}"></script>
 
 </body>
 

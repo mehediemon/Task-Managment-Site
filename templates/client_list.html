@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} <title> Add task </title> {% endblock %}
+
+{% block titlecontent %} 
+
+<div class="row shadow-sm " style="margin-top: 0px; padding: 7px; background-color: #fff; color: #00838f;">
+  <h2 style="font-family: Racing Sans One;">Add Client</h2>
+</div> 
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center mt-3 p-3">
+        <form class="cs-form shadow-sm" method="post" style="background-color: white;  padding-bottom: 20px;" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <div class="row mt-3 p-3">
+                    <div class="col">
+                        <label for="client" class="form-label" style="color: #00838f;">Client Name</label>
+                        <input type="text-l" class="form-control" id="task" placeholder="Task name" name="name" required>
+                    </div>
+                    <div class="col mt-4 p-2">
+                        <label for="file" class="form-label" style="color: #00838f;">Upload File</label>
+                        <input type="file" name="file" accept="*">
+                    </div>
+
+                </div>
+
+                <div class="row mt-3 p-3">
+                    <label for="client" class="form-label" style="color: #00838f;">More Info</label>
+                    <textarea name="description" id="" cols="10" rows="5"></textarea>
+                </div>
+              
+                <div class="row mt-3">
+                    <div class="col-8"></div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-lg btn-floating w-100 shadow-sm"
+                            style="background-color: #00838f; border: none; color: #fff; font-family: DM Sans;">
+                            <i class="bi bi bi-plus-square" style="color: #fff;"></i>  Add</button>
+    
+                    </div>
+                </div>
+    
+            </div>
+    
+        </form>
+    </div>
+
+    <div class="row justify-content-center p-2">
+        {% for clnt in docs %}
+
+        <div class="col text-center">
+        <div class="card m-1 shadow-sm" style="width: 18rem; height: 10rem; background-color: #fff; overflow-x: auto;">
+            <div class="card-body">
+              <h5 class="card-title">{{ clnt.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ clnt.description }}</h6>
+
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% endblock %}

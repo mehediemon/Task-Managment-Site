@@ -33,7 +33,78 @@
 </div>
 
 <div class="row justify-content-center">
-  <div class="col m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);"></div>
+  <div class="col m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="g-3" method="get">
+          {% csrf_token %}
+          <div class="row">
+              <div class="col-12">
+                  <label for="task" class="form-label">Task</label>
+                  <input type="text" value="{{task.name}}" class="form-control" id="task" placeholder="Task name"
+                      name="task_name">
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-lg-4">
+                  <label for="client" class="form-label">Client Name</label>
+                  <input type="text" value="{{task.client.name}}" class="form-control" id="client" placeholder=" name"
+                      name="client">
+              </div>
+              <div class="col-lg-4">
+                  <label for="date" class="form-label">Date</label>
+                  <input type="date" value="{{task.date}}" name="date" class="form-control">
+              </div>
+              <div class="col-lg-4">
+                  <label for="status" class="form-label">Status</label>
+                  <select name="status" id="status" class="form-select">
+                      <option value="0">Pending</option>
+                      <option value="1">Completed</option>
+  
+                  </select>
+              </div>
+          </div>
+          <div class="row mt-3">
+              <div class="col-lg-4">
+                  <label for="type" class="form-label">Type</label>
+                  <select name="type" id="type" class="form-select">
+                      <option value="01">01</option>
+                      <option value="02">02</option>
+  
+                  </select>
+              </div>
+              <div class="col-lg-4">
+                  <label for="time" class="form-label">Time</label>
+                  <input type="number" value="{{task.time}}" class="form-control" id="time" name="time">
+              </div>
+  
+          </div>
+    
+  </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+  </div>
 
   <div class="col  m-2 " style=" box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
     <h3>Pending Task:</h3>
@@ -123,19 +194,7 @@
     </table>
   </div>
   <div class="col  m-2 " style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
-    <div class="p-3">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="" type="submit">Upload</button>
-      </form>
-    </div>
-    {% for doc in docs %}
-    <a href="{{ doc.document.url }}" target="_blank">{{ doc.name }}</a>
-    {% endfor %}
-
-    
-      <p><a href="{% url 'home' %}">Return to home</a></p>
+   
 
   </div>
 

@@ -15,8 +15,9 @@ class Type(models.Model):
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=255)
-    document = models.FileField(upload_to='documents/')
+    description = models.CharField(max_length=500, null=True)
+    file = models.FileField(upload_to='documetns/')
+    original_filename = models.CharField(max_length=255)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
