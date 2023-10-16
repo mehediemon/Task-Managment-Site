@@ -132,8 +132,9 @@
           <td>
             {% if task.status == "0" %}
 
-            <a href="{% url 'edit_task'  task_id=task.id %}" type="button" class="btn btn-light"
-              style="color: #00838f;">edit</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="editTask('{{task.id}}')">
+              Launch demo modal
+            </button>
             {% elif task.status == "1" %}
             <a type="text">no edit</a>
             {% endif %}

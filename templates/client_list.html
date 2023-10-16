@@ -49,12 +49,12 @@
         </form>
     </div>
 
-    <div class="row row-cols-3 row-cols-md-4 g-4 " style="margin-bottom: 30px;">
+    <div class="row row-cols-1 row-cols-md-4 g-4 " style="margin-bottom: 30px;">
         
         {% for clnt in docs %}
         <div class="col">
         
-        <div class="card shadow-sm" style="height: 13rem; overflow-x: auto;">
+        <div class="card " style="height: 13rem; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
             <div class="card-body">
               <h5 class="card-title">{{ clnt.name }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">{{ clnt.description }}</h6>
