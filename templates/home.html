@@ -137,8 +137,58 @@
 
 </div>
 
-<script>
+<!-- Modal for Editing Task -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="editTaskForm">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                      <label for="taskName" class="form-label">Task Name</label>
+                      <input type="text" class="form-control" id="taskName" name="task_name">
+                  </div>
+                  <div class="mb-3">
+                      <label for="taskClient" class="form-label">Client Name</label>
+                      <input type="text" class="form-control" id="taskClient" name="client_name">
+                  </div>
+                  <div class="mb-3">
+                      <label for="taskDate" class="form-label">Date</label>
+                      <input type="date" class="form-control" id="taskDate" name="date">
+                  </div>
+                  <div class="mb-3">
+                      <label for="taskStatus" class="form-label">Status</label>
+                      <select class="form-select" id="taskStatus" name="status">
+                          <option value="0">Pending</option>
+                          <option value="1">Completed</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                      <label for="taskType" class="form-label">Type</label>
+                      <select class="form-select" id="taskType" name="type">
+                          <option value="01">01</option>
+                          <option value="02">02</option>
+                      </select>
+                  </div>
+                  <div class="mb-3">
+                      <label for="taskTime" class="form-label">Time</label>
+                      <input type="number" class="form-control" id="taskTime" name="time">
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
+          </div>
+      </div>
+  </div>
+</div>
 
+<script>
 
 $(document).ready(function() {
   $('.edit-task').click(function() {
@@ -195,6 +245,5 @@ $(document).ready(function() {
 </script>
   
   
-
 
 {% endblock%}
