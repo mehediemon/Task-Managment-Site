@@ -204,22 +204,10 @@ def logout_view(request):
     logout(request)
     return redirect("signin")
 
-@login_required(login_url="/login/")
-@csrf_exempt
-def edit_task_modal(request, task_id):
-    if request.method == 'POST':
-        try:
-            task = Task.objects.get(pk=task_id)
-            task.name = request.POST.get('name')
-            task.client = request.POST.get('client')
-            task.type = request.POST.get('type')
-            task.time = request.POST.get('time')
-            task.save()
-            return JsonResponse({'message': 'Task updated successfully'})
-        except Task.DoesNotExist:
-            return JsonResponse({'error': 'Task not found'}, status=404)
+
 
 @login_required(login_url="/login/")
+@csrf_exempt
 def update_task(request, task_id):
     if request.method == 'POST':
         try:

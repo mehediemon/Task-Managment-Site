@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-3">
   <div class="col  m-2 p-1 text-center"
     style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
@@ -41,9 +41,10 @@
 <div class="row justify-content-center">
 
 
-  <div class="col  m-2 " style=" overflow-x: auto; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
-    <h3>Pending Task:</h3>
-    <table class="table table-hover">
+  <div class="col border border-success   m-2 mt-5 p-4 text-center " style=" overflow-x: auto; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
+
+    <h3 class="p-1">Pending Task:</h3>
+    <table class="table table-hover ">
       <thead>
         <tr>
           <th>Date</th>
@@ -188,61 +189,6 @@
   </div>
 </div>
 
-<script>
-
-$(document).ready(function() {
-  $('.edit-task').click(function() {
-      var taskId = $(this).data('task-id');
-      $.ajax({
-          url: '/get_task_details/' + taskId + '/',
-          type: 'GET',
-          dataType: 'json',
-          success: function(data) {
-              $('#taskName').val(data.name);
-              $('#taskDate').val(data.date);
-              $('#taskStatus').val(data.status);
-              $('#taskTime').val(data.time);
-
-          },
-          error: function() {
-              // Handle error
-          }
-      });
-  });
-
-  $('#saveChanges').click(function() {
-      var taskId = $('.edit-task').data('task-id');
-      var taskName = $('#taskName').val();
-      var taskDate = $('#taskDate').val();
-      var taskStatus = $('#taskStatus').val();
-      var taskTime = $('#taskTime').val();
-      $.ajax({
-          url: '/update_task/' + taskId + '/',
-          type: 'POST',
-          cache: false,
-          data: {
-              task_name: taskName,
-              date: taskDate,
-              status: taskStatus,
-              time: taskTime,
-              csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-          },
-          success: function(data) {
-              $('#exampleModal').modal('hide');
-              $('.modal-backdrop').remove();
-
-              location.reload();
-
-              // Update the table or display a success message
-          },
-          error: function() {
-              // Handle error
-          }
-      });
-  });
-});
-
-</script>
   
   
 

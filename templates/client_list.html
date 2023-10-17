@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %} <title> Add task </title> {% endblock %}
+{% block title %} <title> Add Client </title> {% endblock %}
 
 {% block titlecontent %}
 
@@ -12,36 +12,51 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row justify-content-center mt-3 p-3">
-        <form class="cs-form shadow-sm" method="post" style="background-color: white;  padding-bottom: 20px;"
+<div class="container-fluid mt-2">
+    <div class="row justify-content-center">
+        <form class="cs-form " method="post" style="background-color: white;  padding-bottom: 20px;"
             enctype="multipart/form-data">
             {% csrf_token %}
-            <div>
-                <div class="row mt-3 p-3">
+            <div class="p-3">
+                <div class="row">
+
                     <div class="col">
-                        <label for="client" class="form-label" style="color: #00838f;">Client Name</label>
-                        <input type="text-l" class="form-control" id="task" placeholder="Task name" name="name"
-                            required>
+
+                        <div class="row p-2">
+                            <label for="client" class="form-label" style="color: #00838f;">More Info</label>
+                            <textarea name="description" id="" rows="4"></textarea>
+                        </div>
+
                     </div>
-                    <div class="col mt-4 p-2">
-                        <label for="file" class="form-label" style="color: #00838f;">Upload File</label>
-                        <input type="file" name="file" accept="*">
-                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
 
-                </div>
+                                <div class="row  p-2">
+                                    <label for="client" class="form-label" style="color: #00838f;">Client Name</label>
+                                    <input type="text-l" class="form-control" id="task" placeholder="Task name"
+                                        name="name" required>
+                                </div>
 
-                <div class="row mt-3 p-3">
-                    <label for="client" class="form-label" style="color: #00838f;">More Info</label>
-                    <textarea name="description" id="" cols="10" rows="5"></textarea>
-                </div>
+                            </div>
+                            <div class="col">
 
-                <div class="row mt-3">
-                    <div class="col-8"></div>
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-lg btn-floating w-100 shadow-sm"
-                            style="background-color: #00838f; border: none; color: #fff; font-family: DM Sans;">
-                            <i class="bi bi bi-plus-square" style="color: #fff;"></i> Add</button>
+                                <div class="row p-2">
+                                    <label for="file" class="form-label" style="color: #00838f;">Upload File</label>
+                                    <input type="file" name="file" accept="*" required>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-2 p-2">
+                            <button type="submit" class="btn btn-lg btn-floating w-100 shadow-sm"
+                                style="background-color: #00838f; border: none; color: #fff; font-family: DM Sans;">
+                                <i class="bi bi bi-plus-square" style="color: #fff;"></i> Add Client</button>
+
+
+                        </div>
 
                     </div>
                 </div>
@@ -57,12 +72,12 @@
         <div class="col">
 
             <div class="card "
-                style="height: 13rem; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+                style=" box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); background-color: #00C853;">
                 <div class="card-body">
-                    <h5 class="card-title">{{ clnt.name }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ clnt.description }}</h6>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientModal" data-client-name="{{ clnt.name }}" data-client-description="{{ clnt.description }}">
-                        View Details
+                    <h5 class="card-title" style="color: #fff;">{{ clnt.name }}</h5>
+                    <button type="button" id="cb" class="btn btn-outline-light show-client" data-bs-toggle="modal"
+                        data-bs-target="#clientModal" data-client-id="{{ clnt.id }}">
+                        More Info
                     </button>
 
                 </div>
@@ -74,43 +89,56 @@
     </div>
 </div>
 
-<div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+
+<div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="clientModalLabel">Client Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Client Info:</h5>
             </div>
             <div class="modal-body">
                 <!-- Client information will be displayed here -->
-                <h5 class="modal-title" id="modalClientName"></h5>
-                <p id="modalClientDescription"></p>
+                <div class="mb-3">
+
+                </div>
+                <div class="mb-3">
+
+                    <h4 id="clientName" style="color: #00838f;"></h4>
+                    <p id="clientDescription" style="white-space: pre-line;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('.view-details').click(function() {
+    $(document).ready(function () {
+        $('.show-client').click(function () {
             var clientId = $(this).data('client-id');
+            var clientName = $('#clientName');
+            var clientDescription = $('#clientDescription');
+            var clientm = $('#clientModal')
+            console.log(clientId)
             $.ajax({
-                url: '/get_client_details/' + clientId + '/',
+                url: '/get_client_data/' + clientId + '/',
                 type: 'GET',
                 dataType: 'json',
-                success: function(data) {
-                    $('#modalClientName').text(data.name);
-                    $('#modalClientDescription').text(data.description);
-                    $('#clientModal').modal('show');
+                success: function (data) {
+                    clientName.text(data.name);
+                    clientDescription.text(data.description);
+
+
                 },
-                error: function() {
+                error: function () {
                     // Handle error
                 }
             });
         });
     });
+
 </script>
 
 {% endblock %}

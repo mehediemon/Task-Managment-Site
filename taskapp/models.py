@@ -15,7 +15,7 @@ class Type(models.Model):
 
 class Client(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=500, null=True)
+    description = models.TextField(max_length=500, null=True)
     file = models.FileField(upload_to='documetns/')
     original_filename = models.CharField(max_length=255)
     uploaded_at = models.DateTimeField(auto_now_add=True)
