@@ -12,6 +12,7 @@ $(document).ready(function() {
             type: 'GET',
             dataType: 'json',
             success: function(data) {
+                $('#taskIds').val(data.id);
                 $('#taskName').val(data.name);
                 $('#taskDate').val(data.date);
                 $('#taskClient').val(data.client)
@@ -26,7 +27,8 @@ $(document).ready(function() {
     });
   
     $('#saveChanges').click(function() {
-        var taskId = $('.edit-task').data('task-id');
+        var taskId = $('#taskIds').val();
+        console.log(taskId)
         var taskName = $('#taskName').val();
         var taskDate = $('#taskDate').val();
         var taskStatus = $('#taskStatus').val();

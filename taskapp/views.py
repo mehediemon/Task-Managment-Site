@@ -175,6 +175,7 @@ def get_task_details(request, task_id):
     try:
         task = Task.objects.get(id=task_id)
         task_data = {
+            'id': task.id,
             'name': task.name,
             'client': task.client.name,
             'date': str(task.date),

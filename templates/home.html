@@ -9,7 +9,7 @@
 
 <div class="row shadow-sm text-center" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
 
-  <h2 style="font-family: Racing Sans One;">Welcome {{ user.username }}</h2>
+  <h2 style="font-family: Bungee;">Welcome {{ user.username }}</h2>
 
 </div>
 
@@ -18,17 +18,17 @@
 {% block content %}
 <div class="row justify-content-center mt-3">
   <div class="col  m-2 p-1 text-center"
-    style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);" onclick="redirectToPage('pending-task')">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
     <h5 style="color: #fff;">{{ count }}</h5>
   </div>
   <div class="col  m-2 p-1 text-center"
-    style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);" onclick="redirectToPage('completed-task')">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Completed Task:</a>
     <h5 style="color: #fff;">{{ complete_task }}</h5>
   </div>
   <div class="col m-2 p-1 text-center"
-    style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+    style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);" onclick="redirectToPage('add_client')">
     <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Client:</a>
     <h5 style="color: #fff;">{{ clnum }}</h5>
   </div>
@@ -150,6 +150,10 @@
               <form id="editTaskForm">
                   {% csrf_token %}
                   <div class="mb-3">
+                    <label for="taskID" class="form-label">Task ID</label>
+                    <input type="text" class="form-control" id="taskIds" name="task_ids">
+                </div>
+                  <div class="mb-3">
                       <label for="taskName" class="form-label">Task Name</label>
                       <input type="text" class="form-control" id="taskName" name="task_name">
                   </div>
@@ -190,6 +194,11 @@
 </div>
 
   
-  
+<script>
+  function redirectToPage(destination) {
+      window.location.href = destination;
+  }
+  document.getElementById("taskIds").disabled = true;
+</script>
 
 {% endblock%}
