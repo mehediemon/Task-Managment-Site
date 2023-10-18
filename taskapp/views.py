@@ -25,7 +25,7 @@ def home(request):
     taskf = Task.objects.filter(user=userall, date=daten)
     total_task = Task.objects.filter(user=userall, status="0").count()
     total_ctask = Task.objects.filter(user=userall, status="1").count()
-    all_tasks = Task.objects.all()
+    all_tasks = Task.objects.filter(user=userall, status="0")
 
     return render(request, "home.html", {
         "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : userall, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask
