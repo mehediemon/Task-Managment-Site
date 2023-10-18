@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+import xlsxwriter
+from django.http import HttpResponse
 from django.http import JsonResponse
 from taskapp.models import Task, Client, Type
 from django.contrib.auth.models import User
@@ -9,6 +11,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_exempt
 from datetime import *
+from datetime import date
 from django.utils import timezone
 import os
 
@@ -227,3 +230,52 @@ def update_task(request, task_id):
             return JsonResponse({'error': 'Task not found'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
+
+
+def download_excel(request):
+    start_date_str = request.GET.get('start_date')
+    end_date_str = request.GET.get('end_date')
+
+    # Validate and parse the date strings into datetime objects
+    try:
+        start_date = date.fromisoformat(start_date_str)
+        end_date = date.fromisoformat(end_date_str)
+    except (ValueError, TypeError):
+        # Handle invalid dates, e.g., return an error response
+        return HttpResponse("Invalid date parameters", status=400)
+
+
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="task_list.xlsx"'
+
+    # Create an Excel workbook and add a worksheet.
+    workbook = xlsxwriter.Workbook(response, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+
+    headers = ['Date', 'Task', 'Time', 'Done By']  # Add more headers as needed
+
+    # Write column headers to the worksheet.
+    for col_num, header in enumerate(headers):
+        worksheet.write(0, col_num, header)
+
+    # Write your task data to the worksheet.
+    # For example, if you have a queryset 'tasks', you can loop through it and write data to the worksheet.
+    #tasks = Task.objects.all()
+    userall = User.objects.get(id=request.user.id)
+    tasks = Task.objects.filter(user=userall, status="1", date__range=(start_date, end_date))
+    row = 1
+    for task in tasks:
+        userall = User.objects.get(id=request.user.id)
+        formatted_date = task.date.strftime('%m/%d/%Y')
+        worksheet.write(row, 0, formatted_date)
+        worksheet.write(row, 1, task.name)
+        worksheet.write(row, 2, task.time)
+        worksheet.write(row, 3, userall.username)
+
+        # Add more fields as needed
+        row += 1
+
+    workbook.close()
+    return response

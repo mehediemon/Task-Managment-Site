@@ -13,27 +13,55 @@
 
 {% block content %} 
 
-<div class="row shadow-lg mt-3" style="padding-bottom: 0px; margin-top: 10px; overflow-x: scroll;">
-    <div class="col-12">   
-    <table class="table table-hover">
+<div class="row  m-3 p-1" style="padding-bottom: 0px; margin-top: 10px; overflow-x: scroll;">
+  <!--
+    <div class="col-12">
+      {% for task in completed_tasks %}
+      <div class="card m-2 border border-success shadow-sm" style="border-radius: 0;">
+        <div class="card-header">
+          {{ task.date }} || {{ task.client.name}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ task.type }} ==> Time: {{ task.time}} </h5>
+          <p class="card-text">{{ task.name }}</p>
+        </div>
+      </div>
+      {% endfor %}
+ 
+    -->
+        <div class="col">
+          <form id="filter-form" method="get" action="{% url 'download_excel' %}" onsubmit="return submitForm()">
+            <input type="date" name="start_date" id="start_date" required>
+            <input type="date" name="end_date" id="end_date" required>
+            <button type="submit" id="download-button" disabled>Download Filtered Excel</button>
+        </form>
+        
+        
+
+        </div>
+
+        <div class="col">
+          <input type="text-l" class="form-control" id="myInput" placeholder="Search..">
+        </div>
+
+      
+    <table id="dtBasicExample" class=" table table-hover p-1 border border-success mt-3" style="color: #00838f;">
         <thead>
           <tr>
             <th>Date</th>
             <th>Task</th>
             <th>Client</th>
-            <th>Status</th>
             <th>Type</th>
             <th>Time</th>
             <th>User</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
         {% for task in completed_tasks %}
           <tr>
             <td>{{ task.date }}</td>
             <td>{{ task.name }}</td>
             <td>{{ task.client.name}}</td>
-            <td>{{ task.status}}</td>
             <td>{{ task.type}}</td>
             <td>{{ task.time}}</td>
             <td>{{ task.user }}</td>
@@ -42,8 +70,47 @@
         {% endfor %} 
         </tbody>
       </table>
+
     </div>
 
 </div>
+
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+
+    // Get references to the date input fields and download button
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    const downloadButton = document.getElementById('download-button');
+
+    // Function to enable or disable the download button based on date selection
+    function toggleDownloadButton() {
+        if (startDateInput.value && endDateInput.value) {
+            downloadButton.removeAttribute('disabled');
+        } else {
+            downloadButton.setAttribute('disabled', 'disabled');
+        }
+    }
+
+    // Function to submit the form
+    function submitForm() {
+        const form = document.getElementById('filter-form');
+        form.action = `${form.action}?start_date=${startDateInput.value}&end_date=${endDateInput.value}`;
+        return true;
+    }
+
+    // Listen for changes in the date inputs
+    startDateInput.addEventListener('change', toggleDownloadButton);
+    endDateInput.addEventListener('change', toggleDownloadButton);
+
+  </script>
 
 {% endblock%}

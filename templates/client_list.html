@@ -4,6 +4,7 @@
 
 {% block title %} <title> Add Client </title> {% endblock %}
 
+
 {% block titlecontent %}
 
 <div class="row shadow-sm " style="margin-top: 0px; padding: 7px; background-color: #fff; color: #00838f;">
@@ -67,7 +68,7 @@
     </div>
 
     <div class="row text-center p-2">
-        <h5 style=" font-family: Geo; text-decoration: underline;">Client List (Click On Client Name For More Info)</h5>
+        <h5 style=" text-decoration: underline;">Client List (Click On Client Name For More Info)</h5>
     </div>
 
     <div class="row row-cols-1 row-cols-md-4 g-1 " style="margin-bottom: 30px;">
@@ -79,12 +80,17 @@
             data-bs-target="#clientModal" data-client-id="{{ clnt.id }}"
                 style=" border-radius: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
                 <div class="card-body">
-                    <h5 class="card-title" style="color: #000;">{{ clnt.name }}</h5>
+                    <h5 class="card-title">{{ clnt.name }}</h5>
                 </div>
                 <style>
                     .card:hover {
                         background-color: #00838f;
+                      
                     }
+                    .card:hover h5{
+                        color: #fff;
+                    }
+                    
                 </style>
 
             </div>
@@ -96,7 +102,7 @@
 
 
 <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Client Info:</h5>

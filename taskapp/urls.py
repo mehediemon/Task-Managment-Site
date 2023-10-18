@@ -1,5 +1,5 @@
 from django.urls import path, include
-from taskapp.views import completed_task, home, pending_task, add_task, edit_task, main, update_task ,signup, signin, logout_view, add_client, get_task_details, get_client_data
+from taskapp.views import completed_task, home, pending_task,download_excel, add_task, edit_task, main, update_task ,signup, signin, logout_view, add_client, get_task_details, get_client_data
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -16,6 +16,7 @@ urlpatterns = [
     path('get_task_details/<int:task_id>/', get_task_details, name='get_task_details'),
     path('update_task/<int:task_id>/', update_task, name='update_task'),
     path('get_client_data/<int:client_id>/', get_client_data, name='get_client_data'),
+    path('download-excel/', download_excel, name='download_excel'),
     path('edit-task/<int:task_id>/', edit_task, name='edit_task')
 
 ]
