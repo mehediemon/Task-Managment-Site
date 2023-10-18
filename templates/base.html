@@ -95,10 +95,9 @@
         <div class="col-12">
           {% block titlecontent %} {% endblock %}
         </div>
+        {% block content %} {% endblock %}
 
-        <div class="col-12">
-          {% block content %} {% endblock %}
-        </div>
+
       </div>
     </div>
   </div>
@@ -146,7 +145,6 @@
       <a class="img" href="#">
         <img src="{% static 'img/logof.png' %}" width="100px" height="25px" alt="">
       </a>
-      <button type="button" class="btn btn-light" onclick="myfunction()" id="btn1">BUTTON</button>
     </div>
     <!-- Copyright -->
   </footer>

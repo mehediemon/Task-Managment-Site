@@ -16,189 +16,255 @@
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center mt-3">
-  <div class="col  m-2 p-1 text-center"
-    style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);" onclick="redirectToPage('pending-task')">
-    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
-    <h5 style="color: #fff;">{{ count }}</h5>
+
+  <div class="row justify-content-center mt-5">
+    <div class="col  m-2 p-1 text-center"
+      style=" background-color: #01579B; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);"
+      onclick="redirectToPage('pending-task')">
+      <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
+      <h5 style="color: #fff;">{{ count }}</h5>
+    </div>
+    <div class="col  m-2 p-1 text-center"
+      style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);"
+      onclick="redirectToPage('completed-task')">
+      <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Completed Task:</a>
+      <h5 style="color: #fff;">{{ complete_task }}</h5>
+    </div>
+    <div class="col m-2 p-1 text-center"
+      style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);"
+      onclick="redirectToPage('add_client')">
+      <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Client:</a>
+      <h5 style="color: #fff;">{{ clnum }}</h5>
+    </div>
+    <div class="col m-2 p-1 text-center"
+      style=" background-color: #6200EA; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
+      <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
+      <h5 style="color: #fff;">{{ count }}</h5>
+    </div>
   </div>
-  <div class="col  m-2 p-1 text-center"
-    style=" background-color: #AA00FF; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);" onclick="redirectToPage('completed-task')">
-    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Completed Task:</a>
-    <h5 style="color: #fff;">{{ complete_task }}</h5>
-  </div>
-  <div class="col m-2 p-1 text-center"
-    style=" background-color: #00C853; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);" onclick="redirectToPage('add_client')">
-    <a style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Client:</a>
-    <h5 style="color: #fff;">{{ clnum }}</h5>
-  </div>
-  <div class="col m-2 p-1 text-center" 
-    style=" background-color: #6200EA; box-shadow: 0px 13px 8px -8px rgba(0, 0, 0, 0.45);">
-    <a  style="color: #fff;"> <i class="bi bi-hourglass-split fs-5" style="color: #fff;"></i> Total Pending Task:</a>
-    <h5 style="color: #fff;">{{ count }}</h5>
-  </div>
-</div>
-<div class="row justify-content-center">
-
-
-  <div class="col border border-success   m-2 mt-5 p-4 text-center " style=" overflow-x: auto; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
-
-    <h3 class="p-1">Pending Task:</h3>
-    <table class="table table-hover ">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Task</th>
-          <th>Client</th>
-          <th>Type</th>
-          <th>Time</th>
-          <th>action</th>
-          <th>User</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for task in all_tasks %}
-        <tr data-task-id="{{ task.id }}" data-task-name="{{ task.name }}" data-task-client="{{ task.client.name }}" data-task-type="{{ task.type }}" data-task-time="{{ task.time }}">
-          <td>{{ task.date.day}}</td>
-          <td>{{ task.name }}</td>
-          <td>{{ task.client.name}}</td>
-          <td>{{ task.type}}</td>
-          <td>{{ task.time}}</td>
-          <td>{{ task.user }}</td>
-          <td>
-            {% if task.status == "0" %}
-
-            <button type="button" class="btn btn-primary edit-task" data-bs-toggle="modal" data-bs-target="#exampleModal"
-              data-task-id="{{ task.id }}">Open Task</button>
-            {% elif task.status == "1" %}
-            <a type="text">no edit</a>
-            {% endif %}
-          </td>
-        </tr>
-
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-</div>
-<div class="row justify-content-center">
-  <div class="col  m-2 "
-    style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-
-          <th>Task</th>
-          <th>Client</th>
-          <th>Status</th>
-          <th>Type</th>
-          <th>Time</th>
-          <th>action</th>
-          <th>User</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for tas in taskfl %}
-        <tr>
-
-          <td>{{ tas.name }}</td>
-          <td>{{ tas.client.name}}</td>
-          <td>
-            {% if tas.status == "0" %}
-
-            <a type="text">pending</a>
-            {% elif tas.status == "1" %}
-            <a type="text">completed</a>
-            {% endif %}
-          </td>
-          <td>{{ tas.type}}</td>
-          <td>{{ tas.time}}</td>
-          <td>{{ tas.user }}</td>
-          <td>
-            {% if tas.status == "0" %}
-
-            <a href="{% url 'edit_task'  task_id=tas.id %}" type="button" class="btn btn-light"
-              style="color: #00838f;">edit</a>
-            {% elif tas.status == "1" %}
-            <a type="text">no edit</a>
-            {% endif %}
-          </td>
-        </tr>
-
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  <div class="col  m-2 "
-    style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
-
-
-  </div>
-
-</div>
-
-<!-- Modal for Editing Task -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <form id="editTaskForm">
-                  {% csrf_token %}
-                  <div class="mb-3">
-                    <label for="taskID" class="form-label">Task ID</label>
-                    <input type="text" class="form-control" id="taskIds" name="task_ids">
-                </div>
-                  <div class="mb-3">
-                      <label for="taskName" class="form-label">Task Name</label>
-                      <input type="text" class="form-control" id="taskName" name="task_name">
-                  </div>
-                  <div class="mb-3">
-                      <label for="taskClient" class="form-label">Client Name</label>
-                      <input type="text" class="form-control" id="taskClient" name="client_name">
-                  </div>
-                  <div class="mb-3">
-                      <label for="taskDate" class="form-label">Date</label>
-                      <input type="date" class="form-control" id="taskDate" name="date">
-                  </div>
-                  <div class="mb-3">
-                      <label for="taskStatus" class="form-label">Status</label>
-                      <select class="form-select" id="taskStatus" name="status">
-                          <option value="0">Pending</option>
-                          <option value="1">Completed</option>
-                      </select>
-                  </div>
-                  <div class="mb-3">
-                      <label for="taskType" class="form-label">Type</label>
-                      <select class="form-select" id="taskType" name="type">
-                          <option value="01">01</option>
-                          <option value="02">02</option>
-                      </select>
-                  </div>
-                  <div class="mb-3">
-                      <label for="taskTime" class="form-label">Time</label>
-                      <input type="number" class="form-control" id="taskTime" name="time">
-                  </div>
-              </form>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
-          </div>
+  <div class="row justify-content-center mt-5" >
+    <div class="col m-1">
+      <div class="row border border-success"
+      style="padding-bottom: 30px; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
+      <div class="text-center text-white " style="padding-top: 30px;">
+        <img src="{% static 'img/logof.png' %}" width="250" height="70" alt="">
       </div>
-  </div>
-</div>
+      <div class="datetime-container text-center p-3" style="font-family: Bungee; font-size: 30px;">
+        <div class="date-time">
+          <div class="date" id="date"></div>
+          <div class="time" id="time"></div>
+        </div>
+      </div>
 
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col  "
+        style="overflow-x: scroll; box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);">
+        <table class="table table-hover">
+          <thead>
+            <tr>
   
+              <th>Task</th>
+              <th>Client</th>
+              <th>Status</th>
+              <th>Type</th>
+              <th>Time</th>
+              <th>action</th>
+              <th>User</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for tas in taskfl %}
+            <tr>
+  
+              <td>{{ tas.name }}</td>
+              <td>{{ tas.client.name}}</td>
+              <td>
+                {% if tas.status == "0" %}
+  
+                <a type="text">pending</a>
+                {% elif tas.status == "1" %}
+                <a type="text">completed</a>
+                {% endif %}
+              </td>
+              <td>{{ tas.type}}</td>
+              <td>{{ tas.time}}</td>
+              <td>{{ tas.user }}</td>
+              <td>
+                {% if tas.status == "0" %}
+  
+                <a href="{% url 'edit_task'  task_id=tas.id %}" type="button" class="btn btn-light"
+                  style="color: #00838f;">edit</a>
+                {% elif tas.status == "1" %}
+                <a type="text">no edit</a>
+                {% endif %}
+              </td>
+            </tr>
+  
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    </div>
+    
+    <div class="col m-1 text-center ">
+      <div class="conta"></div>
+      <div class="row text-center" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
+
+        <h2 style="font-family: Bungee;">Pending Task</h2>
+      
+      </div>
+      <div class="row row-cols-1 row-cols-md-4 g-1 justify-content-center" style="margin-bottom: 30px;">
+      {% for task in all_tasks %}
+      <div class="card m-2" style=" border-radius: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+        <div class="card-body">
+          <h5 class="card-title">{{task.client.name}}</h5>
+          <p class="card-text">{{ task.name }}</p>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ task.date|date:"j F" }}</p>
+          {% if task.status == "0" %}
+
+          <button type="button" class="btn btn-success edit-task" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" data-task-id="{{ task.id }}"><i class="bi bi-pencil-square">Edit</i></button>
+          {% elif task.status == "1" %}
+          <a type="text">no edit</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+      <!--
+      <div class="col border border-success  text-center p-3 "
+      style=" overflow-x: auto; overflow-y: scroll; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .13), 0 1px 1px 0 rgba(0, 0, 0, .11);">
+
+      <h3 class="p-1">Today Pending Task:</h3>
+      <table class="table table-hover ">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Task</th>
+            <th>Client</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>action</th>
+            <th>User</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in all_tasks %}
+          <tr data-task-id="{{ task.id }}" data-task-name="{{ task.name }}" data-task-client="{{ task.client.name }}"
+            data-task-type="{{ task.type }}" data-task-time="{{ task.time }}">
+            <td>{{ task.date.day}}</td>
+            <td>{{ task.name }}</td>
+            <td>{{ task.client.name}}</td>
+            <td>{{ task.type}}</td>
+            <td>{{ task.time}}</td>
+            <td>{{ task.user }}</td>
+            <td>
+              {% if task.status == "0" %}
+
+              <button type="button" class="btn btn-success edit-task" data-bs-toggle="modal"
+                data-bs-target="#exampleModal" data-task-id="{{ task.id }}"><i class="bi bi-pencil-square"></i></button>
+              {% elif task.status == "1" %}
+              <a type="text">no edit</a>
+              {% endif %}
+            </td>
+          </tr>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    -->
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Modal for Editing Task -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editTaskForm">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="taskID" class="form-label">Task ID</label>
+              <input type="text" class="form-control" id="taskIds" name="task_ids">
+            </div>
+            <div class="mb-3">
+              <label for="taskName" class="form-label">Task Name</label>
+              <input type="text" class="form-control" id="taskName" name="task_name">
+            </div>
+            <div class="mb-3">
+              <label for="taskClient" class="form-label">Client Name</label>
+              <input type="text" class="form-control" id="taskClient" name="client_name">
+            </div>
+            <div class="mb-3">
+              <label for="taskDate" class="form-label">Date</label>
+              <input type="date" class="form-control" id="taskDate" name="date">
+            </div>
+            <div class="mb-3">
+              <label for="taskStatus" class="form-label">Status</label>
+              <select class="form-select" id="taskStatus" name="status">
+                <option value="0">Pending</option>
+                <option value="1">Completed</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="taskType" class="form-label">Type</label>
+              <select class="form-select" id="taskType" name="type">
+                <option value="01">01</option>
+                <option value="02">02</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="taskTime" class="form-label">Time</label>
+              <input type="number" class="form-control" id="taskTime" name="time">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 <script>
   function redirectToPage(destination) {
-      window.location.href = destination;
+    window.location.href = destination;
   }
   document.getElementById("taskIds").disabled = true;
+
+  function updateDateTime() {
+    const dateContainer = document.getElementById("date");
+    const timeContainer = document.getElementById("time");
+
+    const now = new Date();
+    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+    const date = now.toLocaleDateString(undefined, options);
+    const time = now.toLocaleTimeString();
+
+    dateContainer.textContent = date;
+    timeContainer.textContent = time;
+  }
+
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
 </script>
 
 {% endblock%}

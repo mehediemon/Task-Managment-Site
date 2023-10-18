@@ -14,7 +14,7 @@
 
 {% block content %}
 <div class="container-fluid mt-2">
-    <div class="row justify-content-center">
+    <div class="col justify-content-center">
         <form class="cs-form " method="post" style="background-color: white;  padding-bottom: 20px;"
             enctype="multipart/form-data">
             {% csrf_token %}
@@ -23,9 +23,10 @@
 
                     <div class="col">
 
+
                         <div class="row p-2">
                             <label for="client" class="form-label" style="color: #00838f;">More Info</label>
-                            <textarea name="description" id="" rows="4"></textarea>
+                            <textarea class="form-control" name="description" id="" rows="4"></textarea>
                         </div>
 
                     </div>
@@ -35,7 +36,7 @@
 
                                 <div class="row  p-2">
                                     <label for="client" class="form-label" style="color: #00838f;">Client Name</label>
-                                    <input type="text-l" class="form-control" id="task" placeholder="Task name"
+                                    <input type="text" class="form-control" id="task" placeholder="Task name"
                                         name="name" required>
                                 </div>
 
@@ -44,7 +45,7 @@
 
                                 <div class="row p-2">
                                     <label for="file" class="form-label" style="color: #00838f;">Upload File</label>
-                                    <input type="file" name="file" accept="*" required>
+                                    <input class="form-control" type="file" name="file" accept="*" required>
                                 </div>
 
                             </div>
@@ -66,6 +67,7 @@
 
         </form>
     </div>
+ 
 
     <div class="row text-center p-2">
         <h5 style=" text-decoration: underline;">Client List (Click On Client Name For More Info)</h5>
