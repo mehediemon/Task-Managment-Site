@@ -29,18 +29,26 @@
       {% endfor %}
  
     -->
-        <div class="col">
+        <div class="col-8">
           <form id="filter-form" method="get" action="{% url 'download_excel' %}" onsubmit="return submitForm()">
-            <input type="date" name="start_date" id="start_date" required>
-            <input type="date" name="end_date" id="end_date" required>
-            <button type="submit" id="download-button" disabled>Download Filtered Excel</button>
+            <div class="row">
+              <div class="col">
+                <input class="form-control" type="date" name="start_date" id="start_date" required>
+              </div>
+              <div class="col">
+                <input class="form-control" type="date" name="end_date" id="end_date" required>
+              </div>
+              <div class="col">
+                <button class="btn btn-primary" type="submit" id="download-button" disabled>Download Excel</button>
+              </div>
+            </div>     
         </form>
         
         
 
         </div>
 
-        <div class="col">
+        <div class="col-4">
           <input type="text-l" class="form-control" id="myInput" placeholder="Search..">
         </div>
 
