@@ -109,6 +109,7 @@ def signup(request):
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
+        return redirect("signin")
     else:
         print("password not matched")
 
