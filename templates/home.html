@@ -10,13 +10,14 @@
 <div class="row shadow-sm align-items-center" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
 
   <div class="col">
-    <h2 style="font-family: Squada One; text-align: left; font-size: 30px;">Dashboard</h2>
+    <h2 style="font-family: Palanquin Dark; text-align: left; font-size: 25px;">Dashboard</h2>
   </div>
   <div class="col align-items-center text-center">
     <img src="{% static 'img/logof.png' %}" width="150px" height="45px" alt="">
   </div>
-  <div class="col align-items-center">
-    <h2  style="font-family: Squada One; text-align: right; font-size: 20px;">Welcome {{ user.username }}</h2>
+  <div class="col align-items-center" >
+      <h2  style="font-family: Palanquin Dark; text-align: right; font-size: 17px;">Welcome {{ user.username }}</h2>
+
   </div>
   
 
@@ -88,11 +89,11 @@
 </div>
 
 <div class="row">
-  <div class="col-12">
-    <div class="row pt-3 " style=" padding: 7px;  color: #00838f;">
+  <div class="col border border-success m-2">
+    <div class="row shadow-sm p-2" style=" background-color: #00838f; color: #fff;">
 
       <div class="col-md-6">
-        <h2 style="font-family: Squada One; font-weight: 400; padding: 5px;">Pending Task:</h2>
+        <h3 style="font-family: Palanquin Dark; padding: 5px;">Pending Task:</h3>
       </div>
       <div class="col-md-6" style="text-align: right;">
         <div class="date-time">
@@ -104,13 +105,13 @@
 
     </div>
 
-    <div class="container-fluid" style="height: 500px; overflow-y: auto;">
-      <div class="row">
+    <div class="container-fluid " style="border-bottom: #00838f; border-radius: 0; height: 63vh; overflow-y: auto; padding-bottom: 5vh;">
+      <div class="row  mt-2">
 
         {% for task in all_tasks %}
-        <div class="btn w-100 my-1 py-2 shadow-sm border border-success" style="border-radius: 0;">
+        <div class="w-100 m-1 py-2 shadow-sm" style="background-color: #FAFAFA; border-radius: 0;">
           <!-- Basic Plan -->
-          <div class="row align-items-center">
+          <div class="row align-items-center" style="text-align: center;">
 
             <div class="col-12 col-md-1">
               <i class="bi bi-stack fs-3"></i>
@@ -194,8 +195,7 @@
         <form id="editTaskForm">
           {% csrf_token %}
           <div class="mb-3">
-            <label for="taskID" class="form-label">Task ID</label>
-            <input type="text" class="form-control" id="taskIds" name="task_ids">
+            <input type="text" class="form-control" id="taskIds" name="task_ids" hidden>
           </div>
           <div class="mb-3">
             <label for="taskName" class="form-label">Task Name</label>

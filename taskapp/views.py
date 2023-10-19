@@ -135,12 +135,10 @@ def signin(request):
 @login_required(login_url="/login/")
 def add_client(request):
     daten = date.today()
-    docs = Client.objects.all()
+    docs = Client.objects.all().order_by('-id')
     userall = User.objects.get(id=request.user.id)
-    taskf = Task.objects.filter(user=userall, date=daten)
-    total_task = Task.objects.filter(user=userall, status="0").count()
-    all_tasks = Task.objects.all()
     client_list = Client.objects.all()
+    cnum = Client.objects.all().count()
 
     if request.method == 'POST' and request.FILES.get('file'):
 
@@ -151,7 +149,7 @@ def add_client(request):
             client = Client.objects.get(name=name)
             error_message = "A client with the same name already exists. Please choose a different name."
             return render(request, "client_list.html", {
-                "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : userall, "count" : total_task, "error_client" : error_message
+                "docs" : docs, "user" : userall, "error_client" : error_message, "clnum" : cnum
                 })
         except Client.DoesNotExist:
             uploaded_file = request.FILES['file']
@@ -171,7 +169,7 @@ def add_client(request):
             return redirect('add_client')
 
 
-    return render(request, "client_list.html", {"docs" : docs} )
+    return render(request, "client_list.html", {"docs" : docs, "clnum" : cnum} )
 
 @login_required(login_url="/login/")
 def get_task_details(request, task_id):
@@ -232,7 +230,7 @@ def update_task(request, task_id):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
     
 
-
+@login_required(login_url="/login/")
 def download_excel(request):
     start_date_str = request.GET.get('start_date')
     end_date_str = request.GET.get('end_date')

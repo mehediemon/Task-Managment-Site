@@ -13,7 +13,7 @@
   <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'icofont/icofont.min.css' %}">
   <link
-    href='https://fonts.googleapis.com/css?family=Encode Sans Condensed|Monomaniac One|Squada One|Odibee Sans|Contrail One|Racing Sans One|Audiowide|DM Sans|Monoton|Megrim|Yanone Kaffeesatz|Bungee|Geo'
+    href='https://fonts.googleapis.com/css?family=Encode Sans Condensed|Palanquin Dark|Monomaniac One|Squada One|Konkhmer Sleokchher|Odibee Sans|Contrail One|Racing Sans One|Audiowide|DM Sans|Monoton|Megrim|Yanone Kaffeesatz|Bungee|Geo'
     rel='stylesheet'>
   <style>
     body {
@@ -54,37 +54,37 @@
             <li class="nav-item mb-3">
               <a href="{% url 'home' %}" class="nav-link " title="HOME" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Home">
-                <i class="bi bi-house-door-fill fs-5" style="color: #fff;"></i>
+                <i class="bi bi-house-door-fill fs-3" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'add_task' %}" class="nav-link" title="ADD TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Dashboard">
-                <i class="bi bi-calendar2-plus-fill fs-5" style="color: #fff;"></i>
+                <i class="bi bi-calendar2-plus-fill fs-3" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'completed_task' %}" class="nav-link" title="COMPLETED TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Orders">
-                <i class="bi  bi-calendar-check-fill fs-5" style="color: #fff;"></i>
+                <i class="bi  bi-calendar-check-fill fs-3" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'pending_task' %}" class="nav-link" title="PENDING TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Products">
-                <i class="bi bi-stack fs-5" style="color: #fff;"></i>
+                <i class="bi bi-stack fs-3" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
-              <a href="#" class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
+              <a href="{% url 'add_client' %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
                 data-bs-original-title="Customers">
-                <i class="bi-people fs-5" style="color: #fff;"></i>
+                <i class="bi-people fs-3" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="/logout" class="nav-link" title="LOG OUT" data-bs-toggle="tooltip" data-bs-placement="right"
                 data-bs-original-title="Customers">
-                <i class="bi bi-box-arrow-right fs-5" style="color: #fff;"></i>
+                <i class="bi bi-box-arrow-right fs-3" style="color: #fff;"></i>
               </a>
             </li>
           </ul>
