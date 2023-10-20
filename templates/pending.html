@@ -5,13 +5,13 @@
 {% block title %} <title> Pending-task </title> {% endblock %}
 
 {% block titlecontent %} 
-<div class="row shadow-sm align-items-center" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
+<div class="row shadow-sm align-items-center m-1 fixed" style=" padding: 5px;  color: #00838f;">
 
   <div class="col">
     <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Pending Tasks</h2>
   </div>
   <div class="col align-items-center text-center">
-    <img src="{% static 'img/logof.png' %}" width="150px" height="45px" alt="">
+    <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
   </div>
   <div class="col align-items-center">
     <h2  style="font-family: Didact Gothic; text-align: right; font-size: 17px;">Welcome {{ user.username }}</h2>
@@ -22,6 +22,146 @@
 {% endblock %}
 
 {% block content %} 
+
+<div class="row mt-3 m-1">
+  <div class="col-8">
+
+  </div>
+  <div class="col-4">
+    <input class="form-control" type="text" id="searchInput" placeholder="Search">
+</div>
+
+</div>
+
+
+
+<div class="container-fluid " style=" border-radius: 0; height: 100vh; overflow-y: auto; padding-bottom: 3vh;" id="cardList">
+  <div class="row  mt-2">
+   
+
+    {% for task in pending_tasks %}
+    <div class=" card m-1 py-1 shadow-sm" style="background-color: #FAFAFA; border-radius: 0;">
+      <!-- Basic Plan -->
+      <div class="row align-items-center" style="text-align: center;">
+
+        <div class="col-12 col-md-1">
+          <i class="bi bi-stack fs-3"></i>
+        </div>
+
+        <div class="col-12 col-md-2" style="text-align: left;">
+          <h6 class="pt-1 text-primary-d1 letter-spacing">
+            {{task.date}}
+          </h6>
+        </div>
+
+        <div class="col-12 col-md-2" style="text-align: left;">
+          <h5 class="pt-1">
+            {{task.client.name}}
+          </h5>
+            <span style="font-size: 15px;">
+              Task type: {{ task.type }}
+            </span>
+
+        </div>
+
+        <div class="col-12 col-md-6" style="text-align: left;">
+              <p style="  text-align: justify;
+              white-space: nowrap;
+              max-width: 40ch;
+              text-overflow: ellipsis;
+              overflow-x: hidden;">{{task.name}}</p>
+        </div>
+
+        <div class="col-12 col-md-1 " style="text-align: right;">
+          <button type="button" class="btn btn-floating edit-task" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" data-task-id="{{ task.id }}"
+            style="background-color: #00838f; color: #fff;"><i class="bi bi-pencil-square"></i></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!--
+    <div class="col-md-3 ">
+      <div class=" card mb-2 shadow-sm" style=" border-radius: 0;">
+        <div class="card-body">
+          <h5 class="card-title">{{task.client.name}}</h5>
+          <p class="card-text">{{ task.name }}</p>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ task.date|date:"j F" }}</p>
+          {% if task.status == "0" %}
+  
+          <button type="button" class="btn btn-success edit-task" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            data-task-id="{{ task.id }}"><i class="bi bi-pencil-square">Edit</i></button>
+          {% elif task.status == "1" %}
+          <a type="text">no edit</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    -->
+    {% endfor %}
+
+  </div>
+
+</div>
+
+<!-- Modal for Editing Task -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editTaskForm">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" class="form-control" id="taskIds" name="task_ids" hidden>
+          </div>
+          <div class="mb-3">
+            <label for="taskName" class="form-label">Task Name</label>
+            <textarea type="text" class="form-control" id="taskName" name="task_name" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="taskClient" class="form-label">Client Name</label>
+            <input type="text" class="form-control" id="taskClient" name="client_name">
+          </div>
+          <div class="mb-3">
+            <label for="taskDate" class="form-label">Date</label>
+            <input type="date" class="form-control" id="taskDate" name="date">
+          </div>
+          <div class="mb-3">
+            <label for="taskStatus" class="form-label">Status</label>
+            <select class="form-select" id="taskStatus" name="status">
+              <option value="0">Pending</option>
+              <option value="1">Completed</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="taskType" class="form-label">Type</label>
+            <select class="form-select" id="taskType" name="type">
+              <option value="01">01</option>
+              <option value="02">02</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="taskTime" class="form-label">Time</label>
+            <input type="number" class="form-control" id="taskTime" name="time">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
 
 <div class="row shadow-lg" style=" padding-bottom: 30px; margin-bottom: 40px; padding-top: 20px; margin-top: 20px;">
     <div class="col-12">   
@@ -59,6 +199,27 @@
     </div>
 
 </div>
+-->
 
+<script>
+const searchInput = document.getElementById("searchInput");
+const cardList = document.getElementById("cardList");
 
+// Add an input event listener to the search input
+searchInput.addEventListener("input", function () {
+    const searchQuery = searchInput.value.toLowerCase();
+    const cards = cardList.getElementsByClassName("card");
+
+    // Loop through the cards and hide/show based on the search query
+    for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        const cardText = card.textContent.toLowerCase();
+        if (cardText.includes(searchQuery)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    }
+});
+</script>
 {% endblock%}

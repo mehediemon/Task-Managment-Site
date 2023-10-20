@@ -13,7 +13,7 @@
     <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Dashboard</h2>
   </div>
   <div class="col align-items-center text-center">
-    <img src="{% static 'img/logof.png' %}" width="150px" height="45px" alt="">
+    <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
   </div>
   <div class="col align-items-center" >
       <h2  style="font-family: Didact Gothic; text-align: right; font-size: 17px;">Welcome {{ user.username }}</h2>
@@ -88,7 +88,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row justify-content-center mt-2 p-1">
   <div class="col border border-success m-2">
     <div class="row shadow-sm p-2" style=" background-color: #00838f; color: #fff;">
 
@@ -105,11 +105,12 @@
 
     </div>
 
-    <div class="container-fluid " style=" border-radius: 0; height: 50vh; overflow-y: auto; padding-bottom: 5vh;">
+    <div class="container-fluid " style=" border-radius: 0; height: 50vh; overflow-y: auto; padding-bottom: 3vh;">
       <div class="row  mt-2">
+       
 
         {% for task in all_tasks %}
-        <div class="w-100 m-1 py-2 shadow-sm" style="background-color: #FAFAFA; border-radius: 0;">
+        <div class="m-1 py-1 shadow-sm" style="background-color: #FAFAFA; border-radius: 0;">
           <!-- Basic Plan -->
           <div class="row align-items-center" style="text-align: center;">
 
@@ -133,14 +134,13 @@
 
             </div>
 
-            <ul class="list-unstyled mb-0 col-12 col-md-6 my-4 my-md-0" style="text-align: left;">
-              <li style="overflow-x: hidden;">
-                <i class="fa fa-check text-success-m2 text-110 mr-2 mt-1"></i>
-
-                  <span>{{task.name}}</span>
-
-              </li>
-            </ul>
+            <div class="col-12 col-md-6" style="text-align: left;">
+                  <p style="  text-align: justify;
+                  white-space: nowrap;
+                  max-width: 40ch;
+                  text-overflow: ellipsis;
+                  overflow-x: hidden;">{{task.name}}</p>
+            </div>
 
             <div class="col-12 col-md-1 " style="text-align: right;">
               <button type="button" class="btn btn-floating edit-task" data-bs-toggle="modal"
@@ -172,6 +172,7 @@
         </div>
         -->
         {% endfor %}
+
       </div>
 
     </div>
@@ -186,7 +187,7 @@
 
 <!-- Modal for Editing Task -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
@@ -200,7 +201,7 @@
           </div>
           <div class="mb-3">
             <label for="taskName" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="taskName" name="task_name">
+            <textarea type="text" class="form-control" id="taskName" name="task_name" rows="3"></textarea>
           </div>
           <div class="mb-3">
             <label for="taskClient" class="form-label">Client Name</label>

@@ -7,13 +7,13 @@
 
 {% block titlecontent %}
 
-<div class="row shadow-sm align-items-center border border-success m-2" style=" padding: 5px;  color: #00838f;">
+<div class="row shadow-sm align-items-center m-2" style=" padding: 5px;  color: #00838f;">
 
     <div class="col">
         <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Add Client & Info</h2>
     </div>
     <div class="col align-items-center text-center">
-        <img src="{% static 'img/logof.png' %}" width="150px" height="45px" alt="">
+        <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
     </div>
     <div class="col align-items-center">
         <h2 style="font-family: Didact Gothic; text-align: right; font-size: 17px;">Welcome {{ user.username }}</h2>
@@ -110,15 +110,15 @@
                         <!-- Basic Plan -->
                         <div class="row align-items-center" style="text-align: center;">
                         
-                            <div class="col-4" style="text-align: right;">
+                            <div class="col-2">
                                 <i class="bi bi-people-fill fs-4"></i>
                             </div>
-                          <div class="col-4" style="text-align: center;">
+                          <div class="col-10" style="text-align: left;">
                             <h6 class=" pt-1 " style="font-size: 20px;">
                               {{clnt.name}}
                             </h6>
                           </div>
-                          <div class="col-4"></div>
+
 
                         </div>
               
