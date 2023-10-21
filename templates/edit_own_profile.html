@@ -9,7 +9,7 @@
 <div class="row shadow-sm align-items-center" style=" margin-top: 0px; padding: 2px;  color: #00838f;">
 
     <div class="col">
-      <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Edit Task</h2>
+      <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Edit profile</h2>
     </div>
     <div class="col align-items-center text-center">
       <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
@@ -30,43 +30,28 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
-                <label for="task" class="form-label">Task</label>
-                <input type="text" value="{{task.name}}" class="form-control" id="task" placeholder="Task name"
-                    name="task_name">
+                <label for="task" class="form-label">User Name</label>
+                <input type="text" value="{{user.username}}" class="form-control" id="task" placeholder="Task name"
+                    name="user_name">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-lg-4">
-                <label for="client" class="form-label">Client Name</label>
-                <input type="text" value="{{task.client.name}}" class="form-control" id="client" placeholder=" name"
-                    name="client">
+                <label for="client" class="form-label">First Name</label>
+                <input type="text" value="{{user.first_name}}" class="form-control" id="first_name" placeholder="first_name"
+                    name="first_name">
             </div>
+
             <div class="col-lg-4">
-                <label for="date" class="form-label">Date</label>
-                <input type="text" value="{{task.date}}" name="date" class="form-control">
-            </div>
-            <div class="col-lg-4">
-                <label for="status" class="form-label">Status</label>
-                <select name="status" id="status" class="form-select">
-                    <option value="0">Pending</option>
-                    <option value="1">Completed</option>
+                <label for="role" class="form-label">Status</label>
+                <select name="role" id="status" class="form-select">
+                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>admin</option>
+                    <option value="general" {% if user.role == 'general' %}selected{% endif %}>general</option>
 
                 </select>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-lg-4">
-                <label for="type" class="form-label">Type</label>
-                <select name="type" id="type" class="form-select">
-                    <option value="01">01</option>
-                    <option value="02">02</option>
 
-                </select>
-            </div>
-            <div class="col-lg-4">
-                <label for="time" class="form-label">Time</label>
-                <input type="number" value="{{task.time}}" class="form-control" id="time" name="time">
-            </div>
 
         </div>
         <div class="row mt-3">

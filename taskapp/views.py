@@ -1,51 +1,64 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 import xlsxwriter
 from django.http import HttpResponse
 from django.http import JsonResponse
 from taskapp.models import Task, Client, Type
-from django.contrib.auth.models import User
+from .models import CustomUser
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import user_passes_test
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 from datetime import *
 from datetime import date
 from django.utils import timezone
 import os
 
+# permission for admin
+def is_admin(user):
+    # Customize this function to match your role check logic
+    return user.is_authenticated and user.role == 'admin'
+
+admin_required = user_passes_test(is_admin, login_url='home')
+
+
 # Create your views here.
+# Home view
 @login_required(login_url="/login/")
 def home(request):
     daten = date.today()
     docs = Client.objects.all()
     cnum = Client.objects.all().count()
-    userall = User.objects.get(id=request.user.id)
-    taskf = Task.objects.filter(user=userall, date=daten)
-    total_task = Task.objects.filter(user=userall, status="0").count()
-    total_ctask = Task.objects.filter(user=userall, status="1").count()
-    all_tasks = Task.objects.filter(user=userall, status="0")
+    login_user = CustomUser.objects.get(id=request.user.id)
+    taskf = Task.objects.filter(user=login_user, date=daten)
+    total_task = Task.objects.filter(user=login_user, status="0").count()
+    total_ctask = Task.objects.filter(user=login_user, status="1").count()
+    all_tasks = Task.objects.filter(user=login_user, status="0")
 
     return render(request, "home.html", {
-        "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : userall, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask
+        "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : login_user, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask
     })
 
 
 
-
+# For task that is already completed
 @login_required(login_url="/login/")
 def completed_task(request):
-    userall = User.objects.get(id=request.user.id)
+    userall = CustomUser.objects.get(id=request.user.id)
     print(userall)
     completed_tasks = Task.objects.filter(user=userall, status="1")
 
     return render(request, "completed_task.html", {
         "completed_tasks" : completed_tasks 
     })
+
+
+# For Pending tasks
 @login_required(login_url="/login/")
 def pending_task(request):
-    userall = User.objects.get(id=request.user.id)
+    userall = CustomUser.objects.get(id=request.user.id)
     pending_tasks = Task.objects.filter(user=userall, status="0")
 
     return render(request, "pending.html", {
@@ -53,11 +66,13 @@ def pending_task(request):
     })
 
 
+
+# For Adding Task
 @login_required(login_url="/login/")
 def add_task(request):
     clients = Client.objects.all()
     typeall = Type.objects.all()
-    userall = User.objects.get(id=request.user.id)
+    userall = CustomUser.objects.get(id=request.user.id)
     if request.method == 'POST':
         task = request.POST['task']
         client = request.POST['client']
@@ -68,7 +83,7 @@ def add_task(request):
         status = request.POST['status']
         time = request.POST['time']
         user = request.POST['user']
-        user = User.objects.get(id=user)
+        user = CustomUser.objects.get(id=user)
         Task.objects.create(name=task, client=client, date=date, type=type, status=status, time=time, user=user)
         return redirect('home')
        
@@ -76,25 +91,24 @@ def add_task(request):
     return render(request, "add_task.html", { "clients" : clients, "type": typeall, "userl": userall })
 
 
+#
+
 @login_required(login_url="/login/")
-def edit_task(request, task_id):
-    print(task_id)
-    task = Task.objects.get(id=task_id)
-    
-    task_name = request.GET.get('task_name')
-    if task_name:
-        task.name = task_name
-        task.time = request.GET.get('time')
-        task.status = request.GET.get('status')
-        task.save()
-        return redirect('home')
- 
-    return render(request, "edit_task.html", { "task" : task})
+@admin_required
+def edit_task(request):
+    users = CustomUser.objects.all()
+    print(users)
+    return render(request, "user_list.html", { "users" : users})
+
+
+
 
 @login_required(login_url="/login/")
 def main(request):
     return render(request, "main.html")
 
+
+# For User SignUP
 
 def signup(request):
     if request.method == 'POST':
@@ -104,8 +118,9 @@ def signup(request):
      email = request.POST['email']
      password = request.POST['pass1']
      password2 = request.POST['pass2']
+     role = request.POST.get('role', 'general')
      if password == password2:
-        myuser = User.objects.create_user(username=username, email=email, password=password)   
+        myuser = CustomUser.objects.create_user(username=username, email=email, password=password, role=role)   
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
@@ -113,10 +128,10 @@ def signup(request):
     else:
         print("password not matched")
 
-     
-
-
     return render(request, "signup.html")
+
+
+# For Log in
 
 def signin(request):
     if request.method == 'POST':
@@ -133,44 +148,54 @@ def signin(request):
     return render(request, "signin.html")
 
 
+
+# For Add Client
+
 @login_required(login_url="/login/")
 def add_client(request):
     daten = date.today()
     docs = Client.objects.all().order_by('-id')
-    userall = User.objects.get(id=request.user.id)
+    userall = CustomUser.objects.get(id=request.user.id)
     client_list = Client.objects.all()
     cnum = Client.objects.all().count()
+    if request.user.is_authenticated and request.user.role == 'admin':
 
-    if request.method == 'POST' and request.FILES.get('file'):
+        if request.method == 'POST' and request.FILES.get('file'):
 
         
-        name = request.POST['name']
-        description = request.POST['description']
-        try:
-            client = Client.objects.get(name=name)
-            error_message = "A client with the same name already exists. Please choose a different name."
-            return render(request, "client_list.html", {
-                "docs" : docs, "user" : userall, "error_client" : error_message, "clnum" : cnum
-                })
-        except Client.DoesNotExist:
-            uploaded_file = request.FILES['file']
-            original_filename = uploaded_file.name
+            name = request.POST['name']
+            description = request.POST['description']
+            try:
+                client = Client.objects.get(name=name)
+                error_message = "A client with the same name already exists. Please choose a different name."
+                return render(request, "client_list.html", {
+                    "docs" : docs, "user" : userall, "error_client" : error_message, "clnum" : cnum
+                    })
+            except Client.DoesNotExist:
+                uploaded_file = request.FILES['file']
+                original_filename = uploaded_file.name
 
-            new_file = Client(name=name, file=uploaded_file, original_filename=original_filename, description=description)
+                new_file = Client(name=name, file=uploaded_file, original_filename=original_filename, description=description)
 
             # Generate a unique filename based on the current timestamp
-            timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-            file_extension = os.path.splitext(original_filename)[-1]
-            new_filename = f"{timestamp}{file_extension}"
+                timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+                file_extension = os.path.splitext(original_filename)[-1]
+                new_filename = f"{timestamp}{file_extension}"
 
             # Rename the file and save it
-            new_file.file.name = os.path.join('client_Files', new_filename)
-            new_file.save()
+                new_file.file.name = os.path.join('client_Files', new_filename)
+                new_file.save()
 
-            return redirect('add_client')
+                return redirect('add_client')
+    else:
+        messages.error(request, "You do not have permission.")
+        
 
+    return render(request, "client_list.html", {
+        "docs" : docs, "clnum" : cnum, "user" : userall
+        } )
 
-    return render(request, "client_list.html", {"docs" : docs, "clnum" : cnum} )
+# For viewing Pending task in Modal
 
 @login_required(login_url="/login/")
 def get_task_details(request, task_id):
@@ -188,7 +213,10 @@ def get_task_details(request, task_id):
         return JsonResponse(task_data)
     except Task.DoesNotExist:
         return JsonResponse({'error': 'Task not found'}, status=404)
-    
+
+
+# For viewing Client Data in modal
+
 @login_required(login_url="/login/")
 def get_client_data(request, client_id):
     try:
@@ -262,11 +290,11 @@ def download_excel(request):
     # Write your task data to the worksheet.
     # For example, if you have a queryset 'tasks', you can loop through it and write data to the worksheet.
     #tasks = Task.objects.all()
-    userall = User.objects.get(id=request.user.id)
+    userall = CustomUser.objects.get(id=request.user.id)
     tasks = Task.objects.filter(user=userall, status="1", date__range=(start_date, end_date))
     row = 1
     for task in tasks:
-        userall = User.objects.get(id=request.user.id)
+        userall = CustomUser.objects.get(id=request.user.id)
         formatted_date = task.date.strftime('%m/%d/%Y')
         worksheet.write(row, 0, formatted_date)
         worksheet.write(row, 1, task.name)
@@ -278,3 +306,39 @@ def download_excel(request):
 
     workbook.close()
     return response
+
+
+@login_required(login_url="/login/")
+def edit_user(request, user_id):
+    loged_test = request.user.username
+    loged_role = request.user.role
+    user = CustomUser.objects.get(id=user_id)
+    
+    if request.user.is_authenticated and request.user.role == 'admin':
+        username = request.GET.get('user_name')
+        if username:
+            user.username = username
+            user.first_name = request.GET.get('first_name')
+            user.role = request.GET.get('role')
+            user.save()
+            return redirect('edit_task')
+    else:
+        return HttpResponse('not permitted')
+
+    return render(request, 'edit_user.html', {'user': user, 'loged_user' : loged_test, "loged_role" : loged_role})
+
+
+
+def edit_own_profile(request):
+        user = CustomUser.objects.get(id=request.user.id)
+        print(user)
+        username = request.GET.get('user_name')
+        print(username)
+
+        if username:
+            user.username = username
+            user.first_name = request.GET.get('first_name')
+            user.save()
+            return redirect('home')
+        
+        return render(request, 'edit_user.html', {'user': user,})

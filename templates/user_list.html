@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} <title> Completed-task </title> {% endblock %}
+
+{% block titlecontent %} 
+
+<div class="row shadow-sm align-items-center" style=" margin-top: 0px; padding: 5px;  color: #00838f;">
+
+  <div class="col">
+    <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">User List</h2>
+  </div>
+  <div class="col align-items-center text-center">
+    <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
+  </div>
+  <div class="col align-items-center">
+    <h2  style="font-family: Didact Gothic; text-align: right; font-size: 17px;">Welcome {{ user.username }}</h2>
+  </div>
+  
+
+</div>
+{% endblock %}
+
+{% block content %} 
+
+<div class="row  m-3 p-1" style="padding-bottom: 0px; margin-top: 10px; overflow-x: scroll;">
+        <div class="col-8">
+          <form id="filter-form" method="get" action="{% url 'download_excel' %}" onsubmit="return submitForm()">
+       
+         </form>
+        
+        
+
+        </div>
+
+        <div class="col-4">
+          <input type="text-l" class="form-control" id="myInput" placeholder="Search..">
+        </div>
+
+      
+    <table id="dtBasicExample" class=" table table-hover p-1 border border-success mt-3" style="color: #00838f;">
+        <thead>
+          <tr>
+            <th>User Name</th>
+            <th>Fist name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="myTable">
+        {% for usern in users %}
+          <tr>
+            <td>{{ usern.username }}</td>
+            <td>{{ usern.first_name }}</td>
+            <td>{{ usern.last_name}}</td>
+            <td>{{ usern.email}}</td>
+            <td>{{ usern.role}}</td>
+            <td>
+                <a href="{% url 'edit_user'  user_id=usern.id %}" type="button" class="btn btn-light" style="color: #00838f;">edit</a>
+            </td>
+          </tr>
+         
+        {% endfor %} 
+        </tbody>
+      </table>
+
+    </div>
+
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+
+
+  </script>
+
+{% endblock%}

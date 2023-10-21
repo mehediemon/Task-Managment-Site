@@ -49,46 +49,61 @@
 
   <div class="container-fluid">
     <div class="row content">
-      <div class="col-sm-auto  sticky-top" style="background-color: #00838f;">
+      <div class="col-sm-auto sticky-top" style="background-color: #00838f;">
         <div class="d-flex flex-sm-column flex-row flex-nowrap  align-items-center sticky-top" style="background-color: #00838f;">
           <ul
-            class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center mt-5"
-            style="font-size: 10px; ">
+            class="nav flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center mt-5"
+            style="font-size: 7px; ">
 
             <li class="nav-item mb-3">
               <a href="{% url 'home' %}" class="nav-link " title="HOME" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Home">
-                <i class="bi bi-house-door-fill fs-3" style="color: #fff;"></i>
+                <i class="bi bi-house-door-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'add_task' %}" class="nav-link" title="ADD TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Dashboard">
-                <i class="bi bi-calendar2-plus-fill fs-3" style="color: #fff;"></i>
+                <i class="bi bi-calendar2-plus-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'completed_task' %}" class="nav-link" title="COMPLETED TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Orders">
-                <i class="bi  bi-calendar-check-fill fs-3" style="color: #fff;"></i>
+                <i class="bi  bi-calendar-check-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'pending_task' %}" class="nav-link" title="PENDING TASK" data-bs-toggle="tooltip"
                 data-bs-placement="right" data-bs-original-title="Products">
-                <i class="bi bi-stack fs-3" style="color: #fff;"></i>
+                <i class="bi bi-stack fs-5" style="color: #fff;"></i>
               </a>
             </li>
             <li class="nav-item mb-3">
               <a href="{% url 'add_client' %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
                 data-bs-original-title="Customers">
-                <i class="bi-people fs-3" style="color: #fff;"></i>
+                <i class="bi-people fs-5" style="color: #fff;"></i>
               </a>
             </li>
+           {% if request.user.role == 'admin' %}
+            <li class="nav-item mb-3">
+              <a href="{% url 'edit_task' %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
+                data-bs-original-title="Customers">
+                <i class="bi-people fs-5" style="color: #fff;"></i>
+              </a>
+            </li>
+            {% endif %}
+            <li class="nav-item mb-3">
+              <a href="{% url 'edit_own_profile'  %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
+                data-bs-original-title="Customers">
+                <i class="bi bi-person-square fs-5" style="color: #fff;"></i>
+              </a>
+            </li>
+
             <li class="nav-item mb-3">
               <a href="/logout" class="nav-link" title="LOG OUT" data-bs-toggle="tooltip" data-bs-placement="right"
                 data-bs-original-title="Customers">
-                <i class="bi bi-box-arrow-right fs-3" style="color: #fff;"></i>
+                <i class="bi bi-box-arrow-right fs-5" style="color: #fff;"></i>
               </a>
             </li>
           </ul>

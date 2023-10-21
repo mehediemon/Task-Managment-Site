@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} <title> Edit task </title> {% endblock %}
+
+{% block titlecontent %}
+
+<div class="row shadow-sm align-items-center" style=" margin-top: 0px; padding: 2px;  color: #00838f;">
+
+    <div class="col">
+      <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Edit Task</h2>
+    </div>
+    <div class="col align-items-center text-center">
+      <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
+    </div>
+    <div class="col align-items-center">
+      <h2  style="font-family: Didact Gothic; text-align: right; font-size: 17px;">Welcome {{ loged_user }}</h2>
+    </div>
+    
+  
+  </div>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row justify-content-center mt-3">
+    <form class="g-3 shadow-lg" method="get" style="background-color: white;  padding-bottom: 20px; padding-top: 20px;">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12">
+                <label for="task" class="form-label">User Name</label>
+                <input type="text" value="{{user.username}}" class="form-control" id="task" placeholder="Task name"
+                    name="user_name">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-4">
+                <label for="client" class="form-label">First Name</label>
+                <input type="text" value="{{user.first_name}}" class="form-control" id="first_name" placeholder="first_name"
+                    name="first_name">
+            </div>
+
+            <div class="col-lg-4">
+                <label for="role" class="form-label">Status</label>
+                <select name="role" id="status" class="form-select">
+                    <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>admin</option>
+                    <option value="general" {% if user.role == 'general' %}selected{% endif %}>general</option>
+
+                </select>
+            </div>
+        </div>
+
+
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2">
+                <button type="submit" class="btn btn-lg btn-floating w-100 shadow-sm"
+                    style="background-color: #00838f; border: none; color: #fff; font-family: DM Sans;">
+                    <i class="bi bi bi-plus-square" style="color: #fff;"></i> Add</button>
+
+            </div>
+        </div>
+  
+</form>
+</div>
+
+
+{% endblock%}
