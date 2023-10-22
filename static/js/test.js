@@ -15,6 +15,7 @@ $(document).ready(function() {
                 $('#taskIds').val(data.id);
                 $('#taskName').val(data.name);
                 $('#taskDate').val(data.date);
+                $('#finishDate').val(data.fdate);
                 $('#taskClient').val(data.client)
                 $('#taskStatus').val(data.status);
                 $('#taskTime').val(data.time);
@@ -30,7 +31,7 @@ $(document).ready(function() {
         var taskId = $('#taskIds').val();
         console.log(taskId)
         var taskName = $('#taskName').val();
-        var taskDate = $('#taskDate').val();
+        var taskDate = $('#finishDate').val();
         var taskStatus = $('#taskStatus').val();
         var taskTime = $('#taskTime').val();
         $.ajax({

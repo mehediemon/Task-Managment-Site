@@ -39,6 +39,12 @@ STATUS = (
         ('1', 'Completed')
     )
 
+PRIORITY = (
+        ('low', 'low'),
+        ('medium', 'medium'),
+        ('high', 'high')
+    )
+
 class Type(models.Model):
     name = models.CharField(max_length=100)
 
@@ -57,12 +63,15 @@ class Client(models.Model):
 
 
 class Task(models.Model):
+
     
     name = models.CharField(max_length=500,)
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField()
+    priority = models.CharField(max_length=6, choices=PRIORITY, default='low', null=True)
+    created_at = models.DateField(auto_now_add=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default='0')
     time = models.FloatField()
 

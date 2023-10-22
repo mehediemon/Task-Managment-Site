@@ -39,7 +39,7 @@
         </div>
 
       
-    <table id="dtBasicExample" class=" table table-hover p-1 border border-success mt-3" style="color: #00838f;">
+    <table id="dtBasicExample" class=" table table-hover p-1 mt-3" style="color: #00838f;">
         <thead>
           <tr>
             <th>User Name</th>
@@ -60,7 +60,7 @@
             <td>{{ usern.email}}</td>
             <td>{{ usern.role}}</td>
             <td>
-                <a href="{% url 'edit_user'  user_id=usern.id %}" type="button" class="btn btn-light" style="color: #00838f;">edit</a>
+                <a href="{% url 'edit_user'  user_id=usern.id %}" type="button" class="btn btn-light" style="color: #00838f;"><i class="bi bi-pencil-square"></i></button></a>
             </td>
           </tr>
          

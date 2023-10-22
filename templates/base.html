@@ -47,13 +47,13 @@
   -->
 
 
+
   <div class="container-fluid">
     <div class="row content">
       <div class="col-sm-auto sticky-top" style="background-color: #00838f;">
         <div class="d-flex flex-sm-column flex-row flex-nowrap  align-items-center sticky-top" style="background-color: #00838f;">
           <ul
-            class="nav flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center mt-5"
-            style="font-size: 7px; ">
+            class="nav flex-sm-column flex-row flex-nowrap mx-auto text-center mt-3">
 
             <li class="nav-item mb-3">
               <a href="{% url 'home' %}" class="nav-link " title="HOME" data-bs-toggle="tooltip"
@@ -80,36 +80,47 @@
               </a>
             </li>
             <li class="nav-item mb-3">
-              <a href="{% url 'add_client' %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
+              <a href="{% url 'add_client' %}"  class="nav-link" title="Add Client & List" data-bs-toggle="tooltip" data-bs-placement="right"
                 data-bs-original-title="Customers">
-                <i class="bi-people fs-5" style="color: #fff;"></i>
+                <i class="bi bi-file-earmark-person-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
            {% if request.user.role == 'admin' %}
             <li class="nav-item mb-3">
-              <a href="{% url 'edit_task' %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
-                data-bs-original-title="Customers">
+              <a href="{% url 'edit_task' %}"  class="nav-link" title="User List" data-bs-toggle="tooltip" data-bs-placement="right"
+              data-bs-placement="right" data-bs-original-title="Customers">
                 <i class="bi-people fs-5" style="color: #fff;"></i>
               </a>
             </li>
             {% endif %}
             <li class="nav-item mb-3">
-              <a href="{% url 'edit_own_profile'  %}"  class="nav-link" title="" data-bs-toggle="tooltip" data-bs-placement="right"
-                data-bs-original-title="Customers">
+              <a href="{% url 'edit_own_profile'  %}"  class="nav-link" title="Profile" data-bs-toggle="tooltip" data-bs-placement="right"
+              data-bs-placement="right" data-bs-original-title="Customers">
                 <i class="bi bi-person-square fs-5" style="color: #fff;"></i>
               </a>
             </li>
 
             <li class="nav-item mb-3">
               <a href="/logout" class="nav-link" title="LOG OUT" data-bs-toggle="tooltip" data-bs-placement="right"
-                data-bs-original-title="Customers">
+              data-bs-placement="right" data-bs-original-title="Customers">
                 <i class="bi bi-box-arrow-right fs-5" style="color: #fff;"></i>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-sm  min-vh-100">
+      <div class="col-sm  min-vh-100 ">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+      
+            <div>
+                {{ message }}
+            </div>
+            <button type="button" class="btn-close " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         <!-- content -->
         <div class="container">
           {% block titlecontent %} {% endblock %}

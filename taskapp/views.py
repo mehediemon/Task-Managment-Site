@@ -35,7 +35,7 @@ def home(request):
     taskf = Task.objects.filter(user=login_user, date=daten)
     total_task = Task.objects.filter(user=login_user, status="0").count()
     total_ctask = Task.objects.filter(user=login_user, status="1").count()
-    all_tasks = Task.objects.filter(user=login_user, status="0")
+    all_tasks = Task.objects.filter(user=login_user, status="0").order_by('priority')
 
     return render(request, "home.html", {
         "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : login_user, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask
@@ -59,7 +59,7 @@ def completed_task(request):
 @login_required(login_url="/login/")
 def pending_task(request):
     userall = CustomUser.objects.get(id=request.user.id)
-    pending_tasks = Task.objects.filter(user=userall, status="0")
+    pending_tasks = Task.objects.filter(user=userall, status="0").order_by('priority')
 
     return render(request, "pending.html", {
         "pending_tasks" : pending_tasks 
@@ -81,10 +81,11 @@ def add_task(request):
         type = request.POST['type']
         type = Type.objects.get(id=type)
         status = request.POST['status']
+        priority = request.POST['priority']
         time = request.POST['time']
         user = request.POST['user']
         user = CustomUser.objects.get(id=user)
-        Task.objects.create(name=task, client=client, date=date, type=type, status=status, time=time, user=user)
+        Task.objects.create(name=task, client=client, date=date, type=type, status=status, time=time, user=user, priority=priority)
         return redirect('home')
        
 
@@ -167,6 +168,7 @@ def add_client(request):
             description = request.POST['description']
             try:
                 client = Client.objects.get(name=name)
+                print(client.uploaded_at)
                 error_message = "A client with the same name already exists. Please choose a different name."
                 return render(request, "client_list.html", {
                     "docs" : docs, "user" : userall, "error_client" : error_message, "clnum" : cnum
@@ -205,7 +207,8 @@ def get_task_details(request, task_id):
             'id': task.id,
             'name': task.name,
             'client': task.client.name,
-            'date': str(task.date),
+            'fdate': str(task.date),
+            'date': str(task.created_at),
             'status': task.status,
             'type': task.type.id,  # Replace with the appropriate type field
             'time': task.time,
@@ -281,7 +284,7 @@ def download_excel(request):
     workbook = xlsxwriter.Workbook(response, {'in_memory': True})
     worksheet = workbook.add_worksheet()
 
-    headers = ['Date', 'Task', 'Time', 'Done By']  # Add more headers as needed
+    headers = ['Date', 'Finish Date', 'Task', 'Time', 'Done By']  # Add more headers as needed
 
     # Write column headers to the worksheet.
     for col_num, header in enumerate(headers):
@@ -295,11 +298,13 @@ def download_excel(request):
     row = 1
     for task in tasks:
         userall = CustomUser.objects.get(id=request.user.id)
-        formatted_date = task.date.strftime('%m/%d/%Y')
+        formatted_date = task.created_at.strftime('%m/%d/%Y')
+        finish_date = task.date.strftime('%m/%d/%Y')
         worksheet.write(row, 0, formatted_date)
-        worksheet.write(row, 1, task.name)
-        worksheet.write(row, 2, task.time)
-        worksheet.write(row, 3, userall.username)
+        worksheet.write(row, 1, finish_date)
+        worksheet.write(row, 2, task.name)
+        worksheet.write(row, 3, task.time)
+        worksheet.write(row, 4, userall.username)
 
         # Add more fields as needed
         row += 1
@@ -319,8 +324,15 @@ def edit_user(request, user_id):
         if username:
             user.username = username
             user.first_name = request.GET.get('first_name')
+            user.last_name = request.GET.get('last_name')
+            user.email = request.GET.get('email')
             user.role = request.GET.get('role')
-            user.save()
+            pass1 = request.GET.get('password')
+            print(pass1)
+            pass2 = request.GET.get('password2')
+            if pass1 == pass2:
+                user.set_password(pass1)
+                user.save()
             return redirect('edit_task')
     else:
         return HttpResponse('not permitted')
@@ -333,12 +345,19 @@ def edit_own_profile(request):
         user = CustomUser.objects.get(id=request.user.id)
         print(user)
         username = request.GET.get('user_name')
+        pass1 = request.GET.get('password')
+        pass2 = request.GET.get('password2')
         print(username)
 
         if username:
             user.username = username
             user.first_name = request.GET.get('first_name')
-            user.save()
-            return redirect('home')
+            user.last_name = request.GET.get('last_name')
+            user.email = request.GET.get('email')
+            user.save(commit=False)
+            if pass1 == pass2:
+                user.set_password()
+                user.save()
+                return redirect('home')
         
         return render(request, 'edit_user.html', {'user': user,})

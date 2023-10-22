@@ -51,7 +51,7 @@
 
         <div class="col-12 col-md-2" style="text-align: left;">
           <h6 class="pt-1 text-primary-d1 letter-spacing">
-            {{task.date}}
+            {{task.created_at}}
           </h6>
         </div>
 
@@ -65,12 +65,18 @@
 
         </div>
 
-        <div class="col-12 col-md-6" style="text-align: left;">
+        <div class="col-12 col-md-5 " style="text-align: left;">
               <p style="  text-align: justify;
               white-space: nowrap;
               max-width: 40ch;
               text-overflow: ellipsis;
               overflow-x: hidden;">{{task.name}}</p>
+        </div>
+
+        <div class="col-12 col-md-1" style="text-align: center;">
+          <h6 class="pt-1 text-primary-d1 letter-spacing">
+            {{task.priority}}
+          </h6>
         </div>
 
         <div class="col-12 col-md-1 " style="text-align: right;">
@@ -130,9 +136,16 @@
             <label for="taskClient" class="form-label">Client Name</label>
             <input type="text" class="form-control" id="taskClient" name="client_name">
           </div>
-          <div class="mb-3">
-            <label for="taskDate" class="form-label">Date</label>
-            <input type="date" class="form-control" id="taskDate" name="date">
+
+          <div class="row">
+            <div class="col">
+              <label for="taskDate" class="form-label">Date</label>
+              <input type="date" class="form-control" id="taskDate" name="date" >
+            </div>
+            <div class="col">
+              <label for="finishDate" class="form-label">Finish Date</label>
+              <input type="date" class="form-control" id="finishDate" name="fdate">
+            </div>
           </div>
           <div class="mb-3">
             <label for="taskStatus" class="form-label">Status</label>
