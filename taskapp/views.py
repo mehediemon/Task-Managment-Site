@@ -121,11 +121,16 @@ def signup(request):
      password2 = request.POST['pass2']
      role = request.POST.get('role', 'general')
      if password == password2:
-        myuser = CustomUser.objects.create_user(username=username, email=email, password=password, role=role)   
-        myuser.first_name = fname
-        myuser.last_name = lname
-        myuser.save()
-        return redirect("signin")
+        try:
+            usere = CustomUser.objects.get(username=username)
+            messages.error(request, "Client name alrady exist")
+            return render(request, "signup.html")
+        except CustomUser.DoesNotExist:
+            myuser = CustomUser.objects.create_user(username=username, email=email, password=password, role=role)   
+            myuser.first_name = fname
+            myuser.last_name = lname
+            myuser.save()
+            return redirect("signin")
     else:
         print("password not matched")
 
@@ -145,6 +150,7 @@ def signin(request):
             return redirect("home")
         else:
             print("no user matched")
+            messages.error(request, "username or password not matched")
 
     return render(request, "signin.html")
 
@@ -169,9 +175,9 @@ def add_client(request):
             try:
                 client = Client.objects.get(name=name)
                 print(client.uploaded_at)
-                error_message = "A client with the same name already exists. Please choose a different name."
+                messages.error(request, "Client name alrady exist")
                 return render(request, "client_list.html", {
-                    "docs" : docs, "user" : userall, "error_client" : error_message, "clnum" : cnum
+                    "docs" : docs, "user" : userall, "clnum" : cnum
                     })
             except Client.DoesNotExist:
                 uploaded_file = request.FILES['file']
@@ -197,25 +203,6 @@ def add_client(request):
         "docs" : docs, "clnum" : cnum, "user" : userall
         } )
 
-# For viewing Pending task in Modal
-
-@login_required(login_url="/login/")
-def get_task_details(request, task_id):
-    try:
-        task = Task.objects.get(id=task_id)
-        task_data = {
-            'id': task.id,
-            'name': task.name,
-            'client': task.client.name,
-            'fdate': str(task.date),
-            'date': str(task.created_at),
-            'status': task.status,
-            'type': task.type.id,  # Replace with the appropriate type field
-            'time': task.time,
-        }
-        return JsonResponse(task_data)
-    except Task.DoesNotExist:
-        return JsonResponse({'error': 'Task not found'}, status=404)
 
 
 # For viewing Client Data in modal
@@ -239,6 +226,30 @@ def get_client_data(request, client_id):
 def logout_view(request):
     logout(request)
     return redirect("signin")
+
+
+# For viewing Pending task in Modal
+
+@login_required(login_url="/login/")
+def get_task_details(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id)
+        task_data = {
+            'id': task.id,
+            'name': task.name,
+            'client': task.client.name,
+            'fdate': str(task.date),
+            'date': str(task.created_at),
+            'status': task.status,
+            'type': task.type.id,  # Replace with the appropriate type field
+            'time': task.time,
+        }
+        return JsonResponse(task_data)
+    except Task.DoesNotExist:
+        return JsonResponse({'error': 'Task not found'}, status=404)
+
+
+
 
 
 
@@ -342,22 +353,23 @@ def edit_user(request, user_id):
 
 
 def edit_own_profile(request):
+        loged_test = request.user.username
         user = CustomUser.objects.get(id=request.user.id)
         print(user)
-        username = request.GET.get('user_name')
-        pass1 = request.GET.get('password')
-        pass2 = request.GET.get('password2')
-        print(username)
+        if request.user.is_authenticated:
+            username = request.GET.get('user_name')
+            pass1 = request.GET.get('password')
+            pass2 = request.GET.get('password2')
+            print(username)
 
-        if username:
-            user.username = username
-            user.first_name = request.GET.get('first_name')
-            user.last_name = request.GET.get('last_name')
-            user.email = request.GET.get('email')
-            user.save(commit=False)
-            if pass1 == pass2:
-                user.set_password()
-                user.save()
-                return redirect('home')
+            if username:
+                user.username = username
+                user.first_name = request.GET.get('first_name')
+                user.last_name = request.GET.get('last_name')
+                user.email = request.GET.get('email')
+                if pass1 == pass2:
+                    user.set_password(pass1)
+                    user.save()
+                    return redirect('home')
         
-        return render(request, 'edit_user.html', {'user': user,})
+        return render(request, 'edit_user.html', {'user' : user, 'loged_user' : loged_test })
