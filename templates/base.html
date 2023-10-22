@@ -85,7 +85,7 @@
                 <i class="bi bi-file-earmark-person-fill fs-5" style="color: #fff;"></i>
               </a>
             </li>
-           {% if request.user.role == 'admin' %}
+           {% if request.user.is_superuser %}
             <li class="nav-item mb-3">
               <a href="{% url 'edit_task' %}"  class="nav-link" title="User List" data-bs-toggle="tooltip" data-bs-placement="right"
               data-bs-placement="right" data-bs-original-title="Customers">
@@ -110,9 +110,17 @@
         </div>
       </div>
       <div class="col-sm  min-vh-100 ">
+
+        <!-- content -->
+        <div class="col">
+          {% block titlecontent %} {% endblock %}
+        </div>
+
+        <!-- message block-->
+
         {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
+        <div class="alert d-flex align-items-center  border alert-dismissible fade show" role="alert">
       
             <div>
                 {{ message }}
@@ -121,10 +129,7 @@
         </div>
         {% endfor %}
         {% endif %}
-        <!-- content -->
-        <div class="col">
-          {% block titlecontent %} {% endblock %}
-        </div>
+        <!--MAIN CONTENT BLOCK-->
         {% block content %} {% endblock %}
 
         <div class="container">

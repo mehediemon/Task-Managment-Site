@@ -48,7 +48,11 @@ def home(request):
 def completed_task(request):
     userall = CustomUser.objects.get(id=request.user.id)
     print(userall)
-    completed_tasks = Task.objects.filter(user=userall, status="1")
+    if request.user.is_superuser:
+        completed_tasks = Task.objects.filter(status="1")
+    else:
+        completed_tasks = Task.objects.filter(user=userall, status="1")
+
 
     return render(request, "completed_task.html", {
         "completed_tasks" : completed_tasks 
@@ -58,9 +62,11 @@ def completed_task(request):
 # For Pending tasks
 @login_required(login_url="/login/")
 def pending_task(request):
-    userall = CustomUser.objects.get(id=request.user.id)
-    pending_tasks = Task.objects.filter(user=userall, status="0").order_by('priority')
-
+    if request.user.is_superuser:
+        pending_tasks = Task.objects.filter(status="0").order_by('priority')
+    else:
+        userall = CustomUser.objects.get(id=request.user.id)
+        pending_tasks = Task.objects.filter(user=userall, status="0").order_by('priority')
     return render(request, "pending.html", {
         "pending_tasks" : pending_tasks 
     })
@@ -237,6 +243,7 @@ def get_task_details(request, task_id):
         task_data = {
             'id': task.id,
             'name': task.name,
+            'user': task.user.username,
             'client': task.client.name,
             'fdate': str(task.date),
             'date': str(task.created_at),
@@ -305,7 +312,11 @@ def download_excel(request):
     # For example, if you have a queryset 'tasks', you can loop through it and write data to the worksheet.
     #tasks = Task.objects.all()
     userall = CustomUser.objects.get(id=request.user.id)
-    tasks = Task.objects.filter(user=userall, status="1", date__range=(start_date, end_date))
+    if request.user.is_superuser:
+        tasks = Task.objects.filter(status="1", date__range=(start_date, end_date))
+    else:
+        tasks = Task.objects.filter(user=userall, status="1", date__range=(start_date, end_date))
+
     row = 1
     for task in tasks:
         userall = CustomUser.objects.get(id=request.user.id)
@@ -315,7 +326,7 @@ def download_excel(request):
         worksheet.write(row, 1, finish_date)
         worksheet.write(row, 2, task.name)
         worksheet.write(row, 3, task.time)
-        worksheet.write(row, 4, userall.username)
+        worksheet.write(row, 4, task.user.username)
 
         # Add more fields as needed
         row += 1
@@ -330,28 +341,42 @@ def edit_user(request, user_id):
     loged_role = request.user.role
     user = CustomUser.objects.get(id=user_id)
     
-    if request.user.is_authenticated and request.user.role == 'admin':
+    if request.user.is_authenticated and request.user.is_superuser:
         username = request.GET.get('user_name')
         if username:
-            user.username = username
-            user.first_name = request.GET.get('first_name')
-            user.last_name = request.GET.get('last_name')
-            user.email = request.GET.get('email')
-            user.role = request.GET.get('role')
             pass1 = request.GET.get('password')
             print(pass1)
             pass2 = request.GET.get('password2')
-            if pass1 == pass2:
+            if pass1 == "" and pass2 == "":
+                user.username = username
+                user.first_name = request.GET.get('first_name')
+                user.last_name = request.GET.get('last_name')
+                user.email = request.GET.get('email')
+                user.role = request.GET.get('role')
+                print("null pass")
+                user.save()
+                messages.error(request, "user info changed")
+            elif pass1 != "" and pass1 == pass2:
+                user.username = username
+                user.first_name = request.GET.get('first_name')
+                user.last_name = request.GET.get('last_name')
+                user.email = request.GET.get('email')
+                user.role = request.GET.get('role')
+                print(" with pass")
                 user.set_password(pass1)
                 user.save()
+                messages.error(request, "password changed")
+            else:
+                messages.error(request, "password fields not same.")
+
             return redirect('edit_task')
     else:
-        return HttpResponse('not permitted')
+        messages.error(request, "not permitted")
 
     return render(request, 'edit_user.html', {'user': user, 'loged_user' : loged_test, "loged_role" : loged_role})
 
 
-
+@login_required(login_url="/login/")
 def edit_own_profile(request):
         loged_test = request.user.username
         user = CustomUser.objects.get(id=request.user.id)
@@ -364,12 +389,22 @@ def edit_own_profile(request):
 
             if username:
                 user.username = username
-                user.first_name = request.GET.get('first_name')
-                user.last_name = request.GET.get('last_name')
-                user.email = request.GET.get('email')
-                if pass1 == pass2:
+
+                if pass1 == "" and pass2 == "":
+                    user.first_name = request.GET.get('first_name')
+                    user.last_name = request.GET.get('last_name')
+                    user.email = request.GET.get('email')
+                    user.save()
+                    messages.error(request, "user info changed.")
+                elif pass1 != "" and pass1 == pass2:
+                    user.first_name = request.GET.get('first_name')
+                    user.last_name = request.GET.get('last_name')
+                    user.email = request.GET.get('email')
                     user.set_password(pass1)
                     user.save()
-                    return redirect('home')
-        
+                    messages.success(request, "password changed.")
+                else:
+                    messages.error(request, "password fields not same.")
+                    
+            
         return render(request, 'edit_user.html', {'user' : user, 'loged_user' : loged_test })
