@@ -213,7 +213,7 @@
             <input type="text" class="form-control" id="taskIds" name="task_ids" hidden>
           </div>
           <div class="mb-3">
-            <label for="taskName" class="form-label">Task Name</label>
+            <label for="taskName" class="form-label">Task</label>
             <textarea type="text" class="form-control" id="taskName" name="task_name" rows="3"></textarea>
           </div>
           
@@ -241,7 +241,7 @@
               </select>
             </div>
             <div class="col mb-3">
-              <label for="taskAssignedUser" class="form-label">Status</label>
+              <label for="taskAssignedUser" class="form-label">Assign to</label>
               <select class="form-select"  id="taskAssignedUser" name="taskAssignedUser">
                 
                 {% for user in users %}

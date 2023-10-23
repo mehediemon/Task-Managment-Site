@@ -64,8 +64,8 @@
         </div>
 
       
-    <table id="dtBasicExample" class=" table table-hover p-1 border border-success mt-3" style="color: #00838f;">
-        <thead>
+    <table id="dtBasicExample" class=" table table-bordered p-1 border border-success mt-3" style="overflow-x: scroll; color: #00838f;">
+        <thead class="table-dark">
           <tr>
             <th>Date</th>
             <th>Finish date</th>
@@ -78,7 +78,7 @@
         </thead>
         <tbody id="myTable">
         {% for task in completed_tasks %}
-          <tr>
+          <tr class="">
             <td>{{ task.created_at }}</td>
             <td>{{ task.date }}</td>
             <td>{{ task.name }}</td>

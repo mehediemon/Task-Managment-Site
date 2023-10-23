@@ -9,7 +9,7 @@
 <div class="row shadow-sm align-items-center" style=" margin-top: 0px; padding: 2px;  color: #00838f;">
 
     <div class="col">
-      <h2 style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Edit Profile</h2>
+      <h2 class="fw-bold" style="font-family: Didact Gothic; text-align: left; font-size: 25px;">Edit Profile</h2>
     </div>
     <div class="col align-items-center text-center">
       <img src="{% static 'img/logof.png' %}" width="150px" height="25px" alt="">
@@ -25,8 +25,8 @@
 
 {% block content %}
 <div class="container">
-    <div class="row justify-content-center mt-3">
-        <form class="g-3 shadow-lg p-5"  method="get" style="background-color: white;  padding-bottom: 20px; padding-top: 20px;">
+    <div class="row justify-content-center mt-3 m-3">
+        <form class="g-3 shadow-lg p-5 card"  method="get" style="background-color: white;  padding-bottom: 20px; padding-top: 20px;">
             {% csrf_token %}
     
             <div class="row mt-3">
@@ -45,8 +45,8 @@
             <div class="row">
                 <div class="col">
                     <label for="task" class="form-label">User Name</label>
-                    <input type="text" value="{{user.username}}" class="form-control" id="task" placeholder="Task name"
-                        name="user_name">
+                    <input type="text" value="{{user.username}}" class="fw-bold form-control" id="task" placeholder="Task name"
+                        name="user_name" disabled>
                 </div>
     
             </div>

@@ -38,9 +38,10 @@
           <input type="text-l" class="form-control" id="myInput" placeholder="Search..">
         </div>
 
+
       
-    <table id="dtBasicExample" class=" table table-hover p-1 mt-3" style="color: #00838f;">
-        <thead>
+    <table id="dtBasicExample" class=" table table-hover align-middle mb-0 p-1 mt-3" style="color: #00838f;">
+        <thead class="table-dark">
           <tr>
             <th>User Name</th>
             <th>Fist name</th>
@@ -54,7 +55,15 @@
         <tbody id="myTable">
         {% for usern in users %}
           <tr>
-            <td>{{ usern.username }}</td>
+            <td>
+              <div class="d-flex align-items-center">
+
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">{{ usern.username }}</p>
+
+                </div>
+              </div>
+            </td>
             <td>{{ usern.first_name }}</td>
             <td>{{ usern.last_name}}</td>
             <td>{{ usern.email}}</td>

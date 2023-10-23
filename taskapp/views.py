@@ -362,7 +362,6 @@ def edit_user(request, user_id):
             print(pass1)
             pass2 = request.GET.get('password2')
             if pass1 == "" and pass2 == "":
-                user.username = username
                 user.first_name = request.GET.get('first_name')
                 user.last_name = request.GET.get('last_name')
                 user.email = request.GET.get('email')
@@ -371,7 +370,6 @@ def edit_user(request, user_id):
                 user.save()
                 messages.error(request, "user info changed")
             elif pass1 != "" and pass1 == pass2:
-                user.username = username
                 user.first_name = request.GET.get('first_name')
                 user.last_name = request.GET.get('last_name')
                 user.email = request.GET.get('email')
@@ -402,7 +400,6 @@ def edit_own_profile(request):
             print(username)
 
             if username:
-                user.username = username
 
                 if pass1 == "" and pass2 == "":
                     user.first_name = request.GET.get('first_name')
