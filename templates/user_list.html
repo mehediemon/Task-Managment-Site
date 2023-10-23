@@ -42,33 +42,30 @@
       
     <table id="dtBasicExample" class=" table table-hover align-middle mb-0 p-1 mt-3" style="color: #00838f;">
         <thead class="table-dark">
-          <tr>
-            <th>User Name</th>
+          <tr style="text-align: left;">
+            <th style="text-align: left;">User Name</th>
             <th>Fist name</th>
             <th>Last name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Action</th>
+            <th style="text-align: center;">Action</th>
           </tr>
         </thead>
 
         <tbody id="myTable">
         {% for usern in users %}
-          <tr>
+          <tr style="text-align: left;">
             <td>
-              <div class="d-flex align-items-center">
 
-                <div class="ms-3">
                   <p class="fw-bold mb-1">{{ usern.username }}</p>
 
-                </div>
-              </div>
+          
             </td>
             <td>{{ usern.first_name }}</td>
             <td>{{ usern.last_name}}</td>
             <td>{{ usern.email}}</td>
             <td>{{ usern.role}}</td>
-            <td>
+            <td style="text-align: center;">
                 <a href="{% url 'edit_user'  user_id=usern.id %}" type="button" class="btn btn-light" style="color: #00838f;"><i class="bi bi-pencil-square"></i></button></a>
             </td>
           </tr>
