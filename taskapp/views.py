@@ -31,6 +31,7 @@ def home(request):
     daten = date.today()
     docs = Client.objects.all()
     cnum = Client.objects.all().count()
+    users = CustomUser.objects.all()
     login_user = CustomUser.objects.get(id=request.user.id)
     taskf = Task.objects.filter(user=login_user, date=daten)
     total_task = Task.objects.filter(user=login_user, status="0").count()
@@ -38,7 +39,7 @@ def home(request):
     all_tasks = Task.objects.filter(user=login_user, status="0").order_by('priority')
 
     return render(request, "home.html", {
-        "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : login_user, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask
+        "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : login_user, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask, "users" : users
     })
 
 
@@ -62,13 +63,14 @@ def completed_task(request):
 # For Pending tasks
 @login_required(login_url="/login/")
 def pending_task(request):
+    users = CustomUser.objects.all()
     if request.user.is_superuser:
         pending_tasks = Task.objects.filter(status="0").order_by('priority')
     else:
         userall = CustomUser.objects.get(id=request.user.id)
         pending_tasks = Task.objects.filter(user=userall, status="0").order_by('priority')
     return render(request, "pending.html", {
-        "pending_tasks" : pending_tasks 
+        "pending_tasks" : pending_tasks , "users" : users
     })
 
 
@@ -78,7 +80,8 @@ def pending_task(request):
 def add_task(request):
     clients = Client.objects.all()
     typeall = Type.objects.all()
-    userall = CustomUser.objects.get(id=request.user.id)
+    userall = CustomUser.objects.all()
+    user = CustomUser.objects.get(id=request.user.id)
     if request.method == 'POST':
         task = request.POST['task']
         client = request.POST['client']
@@ -91,7 +94,8 @@ def add_task(request):
         time = request.POST['time']
         user = request.POST['user']
         user = CustomUser.objects.get(id=user)
-        Task.objects.create(name=task, client=client, date=date, type=type, status=status, time=time, user=user, priority=priority)
+        init_user = CustomUser.objects.get(id=request.user.id)
+        Task.objects.create(name=task, client=client, date=date, type=type, status=status, time=time, user=init_user, priority=priority, assigned_user=user)
         return redirect('home')
        
 
@@ -244,11 +248,13 @@ def get_task_details(request, task_id):
             'id': task.id,
             'name': task.name,
             'user': task.user.username,
+            'assigned_user' : task.assigned_user.username,
+            'assigned_user_id' : task.assigned_user.id,
             'client': task.client.name,
             'fdate': str(task.date),
             'date': str(task.created_at),
             'status': task.status,
-            'type': task.type.id,  # Replace with the appropriate type field
+            'type': task.type.name,  # Replace with the appropriate type field
             'time': task.time,
         }
         return JsonResponse(task_data)
@@ -270,8 +276,10 @@ def update_task(request, task_id):
             task.client = request.POST.get('client_name', task.client)
             task.date = request.POST.get('date', task.date)
             task.status = request.POST.get('status', task.status)
-            task.type = request.POST.get('type', task.type)
             task.time = request.POST.get('time', task.time)
+            user_id = request.POST.get('assign_user')
+            assigned_user = get_object_or_404(CustomUser, id=user_id)
+            task.assigned_user = assigned_user
             task.save()
             return JsonResponse({'message': 'Task updated successfully'})
         except Task.DoesNotExist:

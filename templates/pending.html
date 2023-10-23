@@ -147,13 +147,27 @@
               <input type="date" class="form-control" id="finishDate" name="fdate">
             </div>
           </div>
-          <div class="mb-3">
-            <label for="taskStatus" class="form-label">Status</label>
-            <select class="form-select" id="taskStatus" name="status">
-              <option value="0">Pending</option>
-              <option value="1">Completed</option>
-            </select>
+          <div class="row">
+
+            <div class="col">
+              <label for="taskStatus" class="form-label">Status</label>
+              <select class="form-select" id="taskStatus" name="status">
+                <option value="0">Pending</option>
+                <option value="1">Completed</option>
+              </select>
+            </div>
+            <div class="col">
+              <label for="taskAssignedUser" class="form-label">Status</label>
+              <select class="form-select"  id="taskAssignedUser" name="taskAssignedUser">
+                
+                {% for user in users %}
+                <option {% with usr_name=get_username %} {% if user.id == usr_name %} selected {% endif %} {% endwith %}  value="{{user.id}}">{{user.username}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
           </div>
+
           <div class="mb-3">
             <label for="taskType" class="form-label">Type</label>
             <select class="form-select" id="taskType" name="type">

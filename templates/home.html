@@ -209,38 +209,53 @@
             <label for="taskName" class="form-label">Task Name</label>
             <textarea type="text" class="form-control" id="taskName" name="task_name" rows="3"></textarea>
           </div>
+          
           <div class="mb-3">
             <label for="taskClient" class="form-label">Client Name</label>
             <input type="text" class="form-control" id="taskClient" name="client_name">
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col mb-3">
               <label for="taskDate" class="form-label">Date</label>
               <input type="date" class="form-control" id="taskDate" name="date" >
             </div>
-            <div class="col">
+            <div class="col mb-3">
               <label for="finishDate" class="form-label">Finish Date</label>
               <input type="date" class="form-control" id="finishDate" name="fdate">
             </div>
           </div>
-          <div class="mb-3">
-            <label for="taskStatus" class="form-label">Status</label>
-            <select class="form-select" id="taskStatus" name="status">
-              <option value="0">Pending</option>
-              <option value="1">Completed</option>
-            </select>
+          <div class="row">
+
+            <div class="col mb-3">
+              <label for="taskStatus" class="form-label">Status</label>
+              <select class="form-select" id="taskStatus" name="status">
+                <option value="0">Pending</option>
+                <option value="1">Completed</option>
+              </select>
+            </div>
+            <div class="col mb-3">
+              <label for="taskAssignedUser" class="form-label">Status</label>
+              <select class="form-select"  id="taskAssignedUser" name="taskAssignedUser">
+                
+                {% for user in users %}
+                <option {% with usr_name=get_username %} {% if user.id == usr_name %} selected {% endif %} {% endwith %}  value="{{user.id}}">{{user.username}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
           </div>
-          <div class="mb-3">
-            <label for="taskType" class="form-label">Type</label>
-            <select class="form-select" id="taskType" name="type">
-              <option value="01">01</option>
-              <option value="02">02</option>
-            </select>
+          <div class="row">
+
+            <div class="col mb-3">
+              <label for="taskType" class="form-label">Type</label>
+              <input class="form-control" id="taskType" name="type">
+            </div>
+            <div class="col mb-3">
+              <label for="taskTime" class="form-label">Time</label>
+              <input type="number" class="form-control" id="taskTime" name="time">
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="taskTime" class="form-label">Time</label>
-            <input type="number" class="form-control" id="taskTime" name="time">
-          </div>
+
         </form>
       </div>
       <div class="modal-footer">

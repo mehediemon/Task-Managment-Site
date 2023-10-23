@@ -86,7 +86,9 @@
                 <div class="col-lg-4">
                     <label for="user" class="form-label" style="color: #00838f;">User Name</label>
                     <select name="user" id="user" class="form-select">
-                          <option value="{{ userl.id }}">{{userl.username}}</option>
+                        {% for users in userl %} 
+                          <option value="{{ users.id }}">{{users.username}}</option>
+                        {% endfor %}
                     
                     </select>
                 </div>
