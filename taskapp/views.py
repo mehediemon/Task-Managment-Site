@@ -340,7 +340,7 @@ def download_excel(request):
         worksheet.write(row, 1, finish_date)
         worksheet.write(row, 2, task.name)
         worksheet.write(row, 3, task.time)
-        worksheet.write(row, 4, task.user.username)
+        worksheet.write(row, 4, task.assigned_user.username)
 
         # Add more fields as needed
         row += 1
