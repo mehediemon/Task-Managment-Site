@@ -80,7 +80,7 @@
           <i class="bi bi-hourglass-split fs-2" style="color: #fff;"></i>
         </div>
         <div class="col-md-9" style="text-align: left;">
-          <a style="color: #fff;"> Total Completed Task:</a>
+          <a style="color: #fff;"> Total Initiated Task:</a>
           <h5 style="color: #fff;">{{ complete_task }}</h5>
         </div>
     </div>
@@ -134,7 +134,7 @@
 
             </div>
 
-            <div class="col-12 col-md-5" style="text-align: left;">
+            <div class="col-12 col-md-4" style="text-align: left;">
                   <p style="  text-align: justify;
                   white-space: nowrap;
                   max-width: 40ch;
@@ -142,11 +142,18 @@
                   overflow-x: hidden;">{{task.name}}</p>
             </div>
 
-            <div class="col-12 col-md-1" style="text-align: left;">
+            <div class="col-12 col-md-1" style="text-align: center;">
               <h6 class="pt-1 text-primary-d1 letter-spacing">
                 {{task.priority}}
               </h6>
             </div>
+
+            <div class="col-12 col-md-1" style="text-align: center;">
+              <h6 class="pt-1 ">
+                {{task.assigned_user}}
+              </h6>
+            </div>
+    
 
             <div class="col-12 col-md-1 " style="text-align: right;">
               <button type="button" class="btn btn-floating edit-task" data-bs-toggle="modal"

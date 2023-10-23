@@ -67,7 +67,7 @@ class Task(models.Model):
     
     name = models.CharField(max_length=500,)
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
-    assigned_user = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='assigned_user', null=True)
+    assigned_user = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='assigned_user')
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField()

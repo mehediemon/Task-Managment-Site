@@ -65,12 +65,18 @@
 
         </div>
 
-        <div class="col-12 col-md-5 " style="text-align: left;">
+        <div class="col-12 col-md-4 " style="text-align: left;">
               <p style="  text-align: justify;
               white-space: nowrap;
               max-width: 40ch;
               text-overflow: ellipsis;
               overflow-x: hidden;">{{task.name}}</p>
+        </div>
+
+        <div class="col-12 col-md-1" style="text-align: center;">
+          <h6 class="pt-1 ">
+            {{task.assigned_user}}
+          </h6>
         </div>
 
         <div class="col-12 col-md-1" style="text-align: center;">
@@ -167,18 +173,19 @@
             </div>
 
           </div>
+          <div class="row">
+            <div class="col mb-3">
+              <label for="taskType" class="form-label">Type</label>
+              <input class="form-control" id="taskType" name="type">
+            </div>
+            <div class="col mb-3">
+              <label for="taskTime" class="form-label">Time</label>
+              <input type="number" class="form-control" id="taskTime" name="time">
+            </div>
 
-          <div class="mb-3">
-            <label for="taskType" class="form-label">Type</label>
-            <select class="form-select" id="taskType" name="type">
-              <option value="01">01</option>
-              <option value="02">02</option>
-            </select>
           </div>
-          <div class="mb-3">
-            <label for="taskTime" class="form-label">Time</label>
-            <input type="number" class="form-control" id="taskTime" name="time">
-          </div>
+
+
         </form>
       </div>
       <div class="modal-footer">

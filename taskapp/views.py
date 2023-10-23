@@ -33,10 +33,16 @@ def home(request):
     cnum = Client.objects.all().count()
     users = CustomUser.objects.all()
     login_user = CustomUser.objects.get(id=request.user.id)
-    taskf = Task.objects.filter(user=login_user, date=daten)
-    total_task = Task.objects.filter(user=login_user, status="0").count()
-    total_ctask = Task.objects.filter(user=login_user, status="1").count()
-    all_tasks = Task.objects.filter(user=login_user, status="0").order_by('priority')
+    if request.user.is_superuser:
+        taskf = Task.objects.all()
+        total_task = Task.objects.filter(status="0").count()
+        total_ctask = Task.objects.filter(status="1").count()
+        all_tasks = Task.objects.filter(status="0").order_by('priority')
+    else:
+        taskf = Task.objects.filter(user=login_user, date=daten)
+        total_task = Task.objects.filter(assigned_user=login_user, status="0").count()
+        total_ctask = Task.objects.filter(assigned_user=login_user, status="1").count()
+        all_tasks = Task.objects.filter(assigned_user=login_user, status="0").order_by('priority')
 
     return render(request, "home.html", {
         "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : login_user, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask, "users" : users
@@ -52,7 +58,7 @@ def completed_task(request):
     if request.user.is_superuser:
         completed_tasks = Task.objects.filter(status="1")
     else:
-        completed_tasks = Task.objects.filter(user=userall, status="1")
+        completed_tasks = Task.objects.filter(assigned_user=userall, status="1")
 
 
     return render(request, "completed_task.html", {
@@ -68,7 +74,7 @@ def pending_task(request):
         pending_tasks = Task.objects.filter(status="0").order_by('priority')
     else:
         userall = CustomUser.objects.get(id=request.user.id)
-        pending_tasks = Task.objects.filter(user=userall, status="0").order_by('priority')
+        pending_tasks = Task.objects.filter(assigned_user=userall, status="0").order_by('priority')
     return render(request, "pending.html", {
         "pending_tasks" : pending_tasks , "users" : users
     })
@@ -323,7 +329,7 @@ def download_excel(request):
     if request.user.is_superuser:
         tasks = Task.objects.filter(status="1", date__range=(start_date, end_date))
     else:
-        tasks = Task.objects.filter(user=userall, status="1", date__range=(start_date, end_date))
+        tasks = Task.objects.filter(assigned_user=userall, status="1", date__range=(start_date, end_date))
 
     row = 1
     for task in tasks:
