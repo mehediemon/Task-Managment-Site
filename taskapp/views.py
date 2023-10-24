@@ -354,10 +354,13 @@ def edit_user(request, user_id):
     loged_test = request.user.username
     loged_role = request.user.role
     user = CustomUser.objects.get(id=user_id)
+    print(user)
     
     if request.user.is_authenticated and request.user.is_superuser:
+        print("inside")
         username = request.GET.get('user_name')
         if username:
+            print("inside 2")
             pass1 = request.GET.get('password')
             print(pass1)
             pass2 = request.GET.get('password2')
