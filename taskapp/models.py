@@ -39,11 +39,7 @@ STATUS = (
         ('1', 'Completed')
     )
 
-PRIORITY = (
-        ('low', 'low'),
-        ('medium', 'medium'),
-        ('high', 'high')
-    )
+
 
 class Type(models.Model):
     name = models.CharField(max_length=100)
@@ -63,18 +59,27 @@ class Client(models.Model):
 
 
 class Task(models.Model):
-
-    
+    PRIORITY = (
+        ('0', 'low'),
+        ('1', 'medium'),
+        ('2', 'high')
+    )    
     name = models.CharField(max_length=500,)
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     assigned_user = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='assigned_user')
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.PROTECT)
     date = models.DateField()
-    priority = models.CharField(max_length=6, choices=PRIORITY, default='low', null=True)
+    priority = models.CharField(max_length=12, choices=PRIORITY, default='low', null=True)
     created_at = models.DateField(auto_now_add=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default='0')
     time = models.FloatField()
+
+    def get_priority_display_value(self):
+        for value, label in self.PRIORITY:
+            if value == self.priority:
+                return label
+        return None
 
     def __str__(self) -> str:
         return self.name

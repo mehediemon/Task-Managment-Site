@@ -37,12 +37,12 @@ def home(request):
         taskf = Task.objects.all()
         total_task = Task.objects.filter(status="0").count()
         total_ctask = Task.objects.filter(status="1").count()
-        all_tasks = Task.objects.filter(status="0").order_by('priority')
+        all_tasks = Task.objects.filter(status="0").order_by('-priority')
     else:
         taskf = Task.objects.filter(user=login_user, date=daten)
         total_task = Task.objects.filter(assigned_user=login_user, status="0").count()
         total_ctask = Task.objects.filter(assigned_user=login_user, status="1").count()
-        all_tasks = Task.objects.filter(assigned_user=login_user, status="0").order_by('priority')
+        all_tasks = Task.objects.filter(assigned_user=login_user, status="0").order_by('-priority')
 
     return render(request, "home.html", {
         "all_tasks" : all_tasks, "taskfl": taskf, "docs" : docs, "user" : login_user, "count" : total_task, "clnum" : cnum, "complete_task" : total_ctask, "users" : users
@@ -71,10 +71,10 @@ def completed_task(request):
 def pending_task(request):
     users = CustomUser.objects.all()
     if request.user.is_superuser:
-        pending_tasks = Task.objects.filter(status="0").order_by('priority')
+        pending_tasks = Task.objects.filter(status="0").order_by('created_at')
     else:
         userall = CustomUser.objects.get(id=request.user.id)
-        pending_tasks = Task.objects.filter(assigned_user=userall, status="0").order_by('priority')
+        pending_tasks = Task.objects.filter(assigned_user=userall, status="0").order_by('created_at')
     return render(request, "pending.html", {
         "pending_tasks" : pending_tasks , "users" : users
     })
