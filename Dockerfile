@@ -1,25 +1,30 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.10-slim
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
 
-EXPOSE 8000
+# Set environment variables
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE TaskManagmentSite.settings
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
-
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
-
+# Create and set the working directory
 WORKDIR /app
+
+# Copy the entire project into the container
 COPY . /app
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
+# Install pip requirements
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+COPY entrypoint.sh /app/entrypoint.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
+
+# Set the entry point to the script
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Start the Django application using Gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "TaskManagmentSite.wsgi"]

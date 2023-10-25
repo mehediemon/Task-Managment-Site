@@ -19,7 +19,7 @@ import os
 # permission for admin
 def is_admin(user):
     # Customize this function to match your role check logic
-    return user.is_authenticated and user.role == 'admin'
+    return user.is_authenticated and user.role == 'admin' or user.is_superuser
 
 admin_required = user_passes_test(is_admin, login_url='home')
 
@@ -356,7 +356,7 @@ def edit_user(request, user_id):
     user = CustomUser.objects.get(id=user_id)
     print(user)
     
-    if request.user.is_authenticated and request.user.is_superuser:
+    if request.user.is_authenticated and request.user.is_superuser :
         print("inside")
         username = request.GET.get('user_name')
         if username:

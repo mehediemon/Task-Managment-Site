@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  taskmanagmentsite:
+    image: taskmanagmentsite
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - /home/mehedi/test/static:/app/collected_static
+      - /home/mehedi/test/media:/app/media
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "TaskManagmentSite.wsgi"]
