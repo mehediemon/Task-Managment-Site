@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 8000:8000
+      - 8000:8001
     volumes:
       - /home/mehedi/test/static:/app/collected_static
       - /home/mehedi/test/media:/app/media

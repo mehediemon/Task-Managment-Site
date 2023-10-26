@@ -181,7 +181,7 @@ def add_client(request):
     userall = CustomUser.objects.get(id=request.user.id)
     client_list = Client.objects.all()
     cnum = Client.objects.all().count()
-    if request.user.is_authenticated and request.user.role == 'admin':
+    if request.user.is_authenticated and request.user.role == 'admin' or request.user.is_superuser:
 
         if request.method == 'POST' and request.FILES.get('file'):
 
