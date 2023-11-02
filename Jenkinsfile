@@ -8,7 +8,7 @@ pipeline {
             steps {
                 echo "====== BUILD STAGE ======"
                 sh '''
-                    virtualenv venv -p python3.8
+                    python3 -m venv venv
                     . venv/bin/activate
                     venv/bin/pip install --no-deps -r requirements.txt
                 '''
