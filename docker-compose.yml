@@ -9,6 +9,6 @@ services:
     ports:
       - 8000:8001
     volumes:
-      - /home/mehedi/test/static:/app/collected_static
-      - /home/mehedi/test/media:/app/media
+      - /opt/static:/app/collected_static
+      - /opt/media:/app/media
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "TaskManagmentSite.wsgi"]

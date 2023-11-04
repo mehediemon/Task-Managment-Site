@@ -18,3 +18,19 @@
         recurse: yes
         owner: ubuntu
         group: ubuntu
+
+    - name: Ensure directory has correct permissions.
+      file:
+        path:  /opt/static/
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+    
+    - name: Ensure directory has correct permissions.
+      file:
+        path:  /opt/media/
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
