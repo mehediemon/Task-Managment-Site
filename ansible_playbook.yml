@@ -36,7 +36,7 @@
         group: ubuntu
 
     - name: Stop and remove containers defined in Docker Compose file
-      command: docker-compose -f /opt/taskApp/docker-compose.yml down
+      command: docker compose -f /opt/taskApp/docker-compose.yml down
       args:
         chdir: /opt/taskApp
       ignore_errors: yes  # Ignore errors in case there are no containers to stop
@@ -46,12 +46,12 @@
       ignore_errors: yes  # Ignore errors in case there are no images to remove
 
     - name: Rebuild Docker Compose services
-      command: docker-compose -f /opt/taskApp/docker-compose.yml build
+      command: docker compose -f /opt/taskApp/docker-compose.yml build
       args:
         chdir: /opt/taskApp
 
     - name: Start Docker Compose services
-      command: docker-compose -f /opt/taskApp/docker-compose.yml up -d
+      command: docker compose -f /opt/taskApp/docker-compose.yml up -d
       args:
         chdir: /opt/taskApp
         
