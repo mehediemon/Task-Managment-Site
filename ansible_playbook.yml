@@ -34,3 +34,27 @@
         recurse: yes
         owner: ubuntu
         group: ubuntu
+
+    - name: Stop and remove containers defined in Docker Compose file
+      command: docker-compose -f /opt/taskApp/docker-compose.yml down
+      args:
+        chdir: /opt/taskApp
+      ignore_errors: yes  # Ignore errors in case there are no containers to stop
+
+    - name: Remove all Docker images
+      command: docker rmi -f $(docker images -q)
+      ignore_errors: yes  # Ignore errors in case there are no images to remove
+
+    - name: Rebuild Docker Compose services
+      command: docker-compose -f /opt/taskApp/docker-compose.yml build
+      args:
+        chdir: /opt/taskApp
+
+    - name: Start Docker Compose services
+      command: docker-compose -f /opt/taskApp/docker-compose.yml up -d
+      args:
+        chdir: /opt/taskApp
+        
+    - name: Restart Nginx
+      shell:
+        cmd: systemctl restart nginx.service
