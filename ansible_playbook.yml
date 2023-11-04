@@ -1,0 +1,20 @@
+---
+- hosts: webservers
+  become: True
+  tasks:
+    - name: Checkout git branch
+      git:
+        repo: git@github.com:mehediemon/Task-Managment-Site.git
+        dest: /opt/taskApp/
+        version: "origin/dev"
+        key_file: /home/ubuntu/.ssh/git
+        accept_hostkey: yes
+        force: yes
+
+    - name: Ensure directory has correct permissions.
+      file:
+        path:  /opt/taskApp/
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu

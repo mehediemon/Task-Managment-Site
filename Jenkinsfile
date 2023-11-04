@@ -14,5 +14,14 @@ pipeline {
                 '''
             }
         }
+        stage('Deploy') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                echo "====== DEPLOY STAGE ======"
+                
+            }
+        }
     }
 }
