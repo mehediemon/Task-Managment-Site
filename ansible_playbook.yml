@@ -42,7 +42,8 @@
       ignore_errors: yes  # Ignore errors in case there are no containers to stop
 
     - name: Remove all Docker images
-      command: docker rmi -f $(docker images -q)
+      shell:
+        cmd: docker rmi -f $(docker images -q)
       ignore_errors: yes  # Ignore errors in case there are no images to remove
 
     - name: Rebuild Docker Compose services
