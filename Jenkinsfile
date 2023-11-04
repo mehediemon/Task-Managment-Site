@@ -20,7 +20,7 @@ pipeline {
             }
             steps {
                 echo "====== DEPLOY STAGE ======"
-                
+                ansiblePlaybook colorized: true, credentialsId: 'devtest_key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'ansible_hosts.inv', playbook: 'ansible_playbook.yml'
             }
         }
     }
