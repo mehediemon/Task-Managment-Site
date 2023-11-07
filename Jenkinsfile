@@ -18,10 +18,10 @@ pipeline {
             when {
                 branch 'dev'
             }
-            steps {
-                echo "====== DEPLOY STAGE ======"
-                ansiblePlaybook colorized: true, credentialsId: 'devtest_key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'ansible_hosts.inv', playbook: 'ansible_playbook.yml'
-            }
+//            steps {
+//                echo "====== DEPLOY STAGE ======"
+//                ansiblePlaybook colorized: true, credentialsId: 'devtest_key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'ansible_hosts.inv', playbook: 'ansible_playbook.yml'
+//            }
         }
     }
 }
