@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             when {
-                branch 'dev'
+                branch 'master'
             }
             steps {
                 echo "====== BUILD STAGE ======"
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch 'dev'
+                branch 'master'
             }
             steps {
                 echo "====== DEPLOY STAGE ======"

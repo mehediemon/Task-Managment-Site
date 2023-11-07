@@ -6,7 +6,7 @@
       git:
         repo: git@github.com:mehediemon/Task-Managment-Site.git
         dest: /opt/taskApp/
-        version: "origin/dev"
+        version: "origin/master"
         key_file: /home/ubuntu/.ssh/git
         accept_hostkey: yes
         force: yes
