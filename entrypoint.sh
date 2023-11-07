@@ -11,7 +11,7 @@ SUPERUSER_EMAIL="admin@example.com"
 SUPERUSER_PASSWORD="12345678"
 
 # Check if the superuser already exists
-if [[ $(python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); print(User.objects.filter(username='$SUPERUSER_USERNAME').exists())") == "True" ]]; then
+if [ "$(python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); print(User.objects.filter(username='$SUPERUSER_USERNAME').exists())")" = "True" ]; then
     echo "Superuser '$SUPERUSER_USERNAME' already exists."
 else
     # Create the superuser

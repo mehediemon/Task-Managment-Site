@@ -11,12 +11,15 @@ WORKDIR /app
 # Copy the entire project into the container
 COPY . /app
 
+RUN apt-get update \
+    && apt-get install -y python3.8-dev \
+    libpq-dev
+
 # Install pip requirements
 RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Collect static files
-RUN python manage.py collectstatic --noinput
 
 COPY entrypoint.sh /app/entrypoint.sh
 
@@ -26,5 +29,4 @@ RUN chmod +x /app/entrypoint.sh
 # Set the entry point to the script
 ENTRYPOINT ["/app/entrypoint.sh"]
 
-# Start the Django application using Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "TaskManagmentSite.wsgi"]
+

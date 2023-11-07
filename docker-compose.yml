@@ -8,6 +8,12 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 8000:8000
+    environment:
+      - DB_NAME=test_db
+      - DB_USER=test
+      - DB_PASSWORD=0147asdf
+      - DB_HOST=10.160.92.118
+      - DB_PORT=5432
     volumes:
       - /opt/static:/app/collected_static
       - /opt/media:/app/media
