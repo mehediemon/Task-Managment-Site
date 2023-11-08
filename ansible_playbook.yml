@@ -58,7 +58,7 @@
     
     - name: Start migrations
       shell:
-        cmd: docker exec -it task-managment-site-taskmanagmentsite-1 /bin/sh -c "/app/mig.sh"
+        cmd: docker exec -it taskapp-taskmanagmentsite-1 /bin/sh -c "/app/mig.sh"
       ignore_errors: yes  # Ignore errors in case there are no images to remove
         
     - name: Restart Nginx
