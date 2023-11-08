@@ -25,7 +25,6 @@ admin_required = user_passes_test(is_admin, login_url='home')
 
 
 # Create your views here.
-
 # Home view
 @login_required(login_url="/login/")
 def home(request):
@@ -117,6 +116,7 @@ def edit_task(request):
     users = CustomUser.objects.all()
     print(users)
     return render(request, "user_list.html", { "users" : users})
+
 
 
 
