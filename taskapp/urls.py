@@ -1,5 +1,5 @@
 from django.urls import path, include
-from taskapp.views import completed_task, home, pending_task, edit_own_profile, download_excel, add_task, edit_user, edit_task, main, update_task ,signup, signin, logout_view, add_client, get_task_details, get_client_data
+from taskapp.views import completed_task, home, pending_task, edit_own_profile, download_excel, add_task, edit_user, edit_task, update_task ,signup, signin, logout_view, add_client, get_task_details, get_client_data
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -10,7 +10,6 @@ urlpatterns = [
     path('pending-task/', pending_task, name="pending_task"),
     path('add-task/', add_task, name="add_task"),
     path('add_client/', add_client, name="add_client"),
-    path('main/', main, name="main"),
     path('signup/', signup, name="signup"),
     path('logout/', logout_view, name="logout"),
     path('get_task_details/<int:task_id>/', get_task_details, name='get_task_details'),

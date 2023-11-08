@@ -9,12 +9,32 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DB_NAME=test_db
-      - DB_USER=test
-      - DB_PASSWORD=0147asdf
-      - DB_HOST=10.160.92.118
+      - DB_NAME=taskscribe_db
+      - DB_USER=taskscribe
+      - DB_PASSWORD=0147asdf@w3e4r
+      - DB_HOST=db
       - DB_PORT=5432
     volumes:
       - /opt/static:/app/collected_static
       - /opt/media:/app/media
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "TaskManagmentSite.wsgi"]
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+  
+
+  db:
+    image: postgres:latest
+    volumes:
+      - /opt/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: taskscribe_db
+      POSTGRES_USER: taskscribe
+      POSTGRES_PASSWORD: 0147asdf@w3e4r
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

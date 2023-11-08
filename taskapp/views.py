@@ -25,6 +25,7 @@ admin_required = user_passes_test(is_admin, login_url='home')
 
 
 # Create your views here.
+
 # Home view
 @login_required(login_url="/login/")
 def home(request):
@@ -118,11 +119,6 @@ def edit_task(request):
     return render(request, "user_list.html", { "users" : users})
 
 
-
-
-@login_required(login_url="/login/")
-def main(request):
-    return render(request, "main.html")
 
 
 # For User SignUP

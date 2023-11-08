@@ -20,6 +20,11 @@ RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Collect static files
+COPY mig.sh /app/mig.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /app/mig.sh
+
 
 COPY entrypoint.sh /app/entrypoint.sh
 
