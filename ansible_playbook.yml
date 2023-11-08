@@ -55,6 +55,11 @@
       command: docker compose -f /opt/taskApp/docker-compose.yml up -d
       args:
         chdir: /opt/taskApp
+    
+    - name: Start migrations
+      command: docker exec -it task-managment-site-taskmanagmentsite-1 /bin/sh -c "/app/mig.sh"
+      args:
+        chdir: /opt/taskApp
         
     - name: Restart Nginx
       shell:
