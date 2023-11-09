@@ -312,7 +312,7 @@ def download_excel(request):
     workbook = xlsxwriter.Workbook(response, {'in_memory': True})
     worksheet = workbook.add_worksheet()
 
-    headers = ['Date', 'Finish Date', 'Task', 'Time', 'Done By']  # Add more headers as needed
+    headers = ['Date', 'Finish Date', 'Task', 'Client', 'Time', 'Done By']  # Add more headers as needed
 
     # Write column headers to the worksheet.
     for col_num, header in enumerate(headers):
@@ -335,8 +335,9 @@ def download_excel(request):
         worksheet.write(row, 0, formatted_date)
         worksheet.write(row, 1, finish_date)
         worksheet.write(row, 2, task.name)
-        worksheet.write(row, 3, task.time)
-        worksheet.write(row, 4, task.assigned_user.username)
+        worksheet.write(row, 3, task.client.name)
+        worksheet.write(row, 4, task.time)
+        worksheet.write(row, 5, task.assigned_user.username)
 
         # Add more fields as needed
         row += 1
