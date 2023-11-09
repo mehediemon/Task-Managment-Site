@@ -94,26 +94,6 @@
 
     </div>
 
-    <!--
-    <div class="col-md-3 ">
-      <div class=" card mb-2 shadow-sm" style=" border-radius: 0;">
-        <div class="card-body">
-          <h5 class="card-title">{{task.client.name}}</h5>
-          <p class="card-text">{{ task.name }}</p>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{ task.date|date:"j F" }}</p>
-          {% if task.status == "0" %}
-  
-          <button type="button" class="btn btn-success edit-task" data-bs-toggle="modal" data-bs-target="#exampleModal"
-            data-task-id="{{ task.id }}"><i class="bi bi-pencil-square">Edit</i></button>
-          {% elif task.status == "1" %}
-          <a type="text">no edit</a>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    -->
     {% endfor %}
 
   </div>
@@ -135,7 +115,7 @@
             <input type="text" class="form-control" id="taskIds" name="task_ids" hidden>
           </div>
           <div class="mb-3">
-            <label for="taskName" class="form-label">Task Name</label>
+            <label for="taskName" class="form-label">Task Details</label>
             <textarea type="text" class="form-control" id="taskName" name="task_name" rows="3"></textarea>
           </div>
           <div class="mb-3">

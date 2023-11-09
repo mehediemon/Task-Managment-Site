@@ -32,7 +32,7 @@
         <div>
             <div class="row mt-3">
                 <div class="col-lg-4">
-                    <label for="client" class="form-label" style="color: #00838f;">Client Name</label>
+                    <label for="client" class="form-label" style="color: #00838f;">Client</label>
                     <select name="client" id="client" class="form-select">
                         {% for client in clients %}
                          <option value="{{client.id}}">{{ client.name }}</option>
@@ -56,7 +56,7 @@
             <div class="row mt-3">
                 <div class="col-lg-8">
                     <label for="task" class="form-label" style="color: #00838f;">Task</label>
-                    <input type="text-l" class="form-control" id="task" placeholder="Task name" name="task" required>
+                    <input type="text-l" class="form-control" id="task" placeholder="Task details" name="task" required>
                 </div>
                 <div class="col-lg-4">
                     <label for="priority" class="form-label" style="color: #00838f;">Status</label>
@@ -79,7 +79,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4">
-                    <label for="time" class="form-label" style="color: #00838f;">Time</label>
+                    <label for="time" class="form-label" style="color: #00838f;">Time(Hours)</label>
                     <input type="number" class="form-control" id="time" name="time">
                 </div>
 
